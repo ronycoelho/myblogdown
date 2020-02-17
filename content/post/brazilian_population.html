@@ -1,0 +1,66 @@
+---
+title: "Distribution of brazilian population (2019)"
+date: 2020-02-16
+---
+
+
+
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE, warning=F,  message=FALSE)</code></pre>
+<div id="with-codes" class="section level1">
+<h1>With Codes</h1>
+<pre class="r"><code>library(dplyr)
+library(readxl)
+library(tidyverse)
+library(janitor)</code></pre>
+<div id="load-data" class="section level3">
+<h3>Load data</h3>
+<pre class="r"><code>pop = tempfile(fileext = &quot;.xls&quot;)
+dataURL &lt;- &quot;ftp://ftp.ibge.gov.br/Estimativas_de_Populacao/Estimativas_2019/estimativa_dou_2019.xls&quot;
+download.file(dataURL, destfile=pop, mode=&#39;wb&#39;)
+
+pop &lt;- readxl::read_excel(pop, sheet =2, skip = 1) %&gt;% 
+  clean_names() %&gt;% 
+  drop_na()
+
+mapa &lt;- brmap::brmap_municipio_simples %&gt;% 
+  clean_names()
+
+# Manipular e mesclar bases
+pop &lt;- pop %&gt;% 
+  mutate(populacao_estimada = as.numeric(populacao_estimada),
+         municipio_cod = paste0(cod_uf, cod_munic)) %&gt;% 
+  drop_na()
+
+dados_brasil &lt;- mapa  %&gt;% 
+  mutate(municipio_cod = as.character(municipio_cod)) %&gt;% 
+  inner_join(pop, by = &quot;municipio_cod&quot;) %&gt;% 
+  select(municipio_cod, municipio_nome, lon, lat, populacao_estimada,  geometry)</code></pre>
+</div>
+<div id="plot-brazil-map" class="section level3">
+<h3>Plot Brazil Map</h3>
+<pre class="r"><code>#X11()
+ggplot(data = dados_brasil) +
+  geom_point(aes(x=lon,y=lat,size=populacao_estimada), 
+             colour = &quot;#cffdfd&quot;, alpha = 0.5, shape = 19) +
+  scale_size_area(max_size = 30) +
+  geom_sf(data=brmap::brmap_estado, fill=NA, 
+         color = alpha(&quot;#ccff00&quot;, .4), lty = 3)+
+  coord_sf()+ # Modificado: xlim = c(-90, -20), ylim = c(-50, 0), expand =F # Não funcionou para aumentar o mapa
+  theme_classic() + 
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    plot.title       = element_text(color = &quot;lightgrey&quot;, hjust = 0.5, size = 25),
+    panel.background = element_rect(fill = &quot;#000000&quot;),
+    plot.background  = element_rect(fill = &quot;#000000&quot;),
+    legend.position  = &quot;none&quot;,
+    axis.ticks       = element_blank(),
+    axis.text        = element_blank(),
+    axis.line        = element_blank()) + 
+    labs(title = &quot;Municipalities in Brazil by population&quot;, x= NULL, y = NULL) </code></pre>
+<p><img src="/post/brazilian_population_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto 0 auto auto;" /></p>
+<div id="inspired-by-municipalities-in-spain-by-population" class="section level4">
+<h4>Inspired by <a href="https://mohdbilal87.github.io/dataviz-r/2019/11/14/municipalities-in-spain-by-population/">Municipalities in Spain by Population</a></h4>
+</div>
+</div>
+</div>
