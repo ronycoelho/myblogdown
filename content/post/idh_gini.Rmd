@@ -1,0 +1,71 @@
+---
+title: "HDI-M and GINI in Brazil (1991, 2000, 2010)"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load libraries
+```{r include=T, echo=FALSE}
+library(tidyverse)
+library(janitor)
+library(brmap)
+```
+
+# Load datas
+```{r}
+idh_gini = tempfile(fileext = ".xlsx")
+dataURL <- "https://github.com/ronycoelho/databases/raw/master/idh_census.xlsx"
+
+download.file(dataURL, destfile=idh_gini, mode='wb')
+
+idh_gini <- readxl::read_excel(idh_gini, sheet =2) %>% 
+  clean_names() %>% 
+  select(ano,	codmun7, gini, idhm)
+
+dt <- brmap_municipio %>% 
+  inner_join(idh_gini, by = c("municipio_cod" = "codmun7"))
+```
+
+# Theme map
+```{r}
+theme_map_br <- theme(panel.background = element_rect(fill = "transparent"), 
+        panel.grid.major = element_line(color = "transparent"), 
+        axis.text.x = element_blank(), 
+        axis.text.y = element_blank(), 
+        axis.ticks = element_blank(),
+        legend.position = c(0.4, 0.4), 
+        legend.justification = c(1, 1),
+        legend.background = element_blank(),
+        legend.text = element_text(size = 20),
+        legend.title = element_text(size=20),
+        plot.title=element_text( hjust=0, vjust=-5, face='bold'))
+```
+
+# Plot HDI-M (1991, 2000, 2010)
+```{r fig.height=8, fig.width=8}
+ggplot(dt)+
+  geom_sf(aes(fill=idhm), colour = alpha("white", .2), lty=3)+
+  scale_fill_viridis_c(option = "inferno")+
+  geom_sf(data=brmap::brmap_brasil, fill=NA, color = "black")+
+  geom_sf(data=brmap::brmap_estado, fill=NA, color = "black")+
+  theme_map_br +
+  facet_wrap(~ano,ncol = 1, nrow = 3)
+```
+
+# Plot GINI (1991, 2000, 2010)
+```{r}
+ggplot(dt)+
+  geom_sf(aes(fill=gini), colour = alpha("white", .2), lty=3)+
+  scale_fill_viridis_c(option = "inferno", direction = -1)+
+  geom_sf(data=brmap::brmap_brasil, fill=NA, color = "black")+
+  geom_sf(data=brmap::brmap_estado, fill=NA, color = "black")+
+  theme_map_br +
+  facet_wrap(~ano, ncol = 1, nrow = 3)
+```
+
+
+
+

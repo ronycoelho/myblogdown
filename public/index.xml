@@ -6,10 +6,19 @@
     <description>Recent content on Rony Coelho</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 15 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 16 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Distribution of brazilian population (2019)</title>
+      <link>/2020/02/16/distribution-of-brazilian-population-2019/</link>
+      <pubDate>Sun, 16 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/16/distribution-of-brazilian-population-2019/</guid>
+      <description>knitr::opts_chunk$set(echo = TRUE, warning=F, message=FALSE)With Codeslibrary(dplyr)library(readxl)library(tidyverse)library(janitor)Load datapop = tempfile(fileext = &amp;quot;.xls&amp;quot;)dataURL &amp;lt;- &amp;quot;ftp://ftp.ibge.gov.br/Estimativas_de_Populacao/Estimativas_2019/estimativa_dou_2019.xls&amp;quot;download.file(dataURL, destfile=pop, mode=&amp;#39;wb&amp;#39;)pop &amp;lt;- readxl::read_excel(pop, sheet =2, skip = 1) %&amp;gt;% clean_names() %&amp;gt;% drop_na()mapa &amp;lt;- brmap::brmap_municipio_simples %&amp;gt;% clean_names()# Manipular e mesclar basespop &amp;lt;- pop %&amp;gt;% mutate(populacao_estimada = as.numeric(populacao_estimada),municipio_cod = paste0(cod_uf, cod_munic)) %&amp;gt;% drop_na()dados_brasil &amp;lt;- mapa %&amp;gt;% mutate(municipio_cod = as.character(municipio_cod)) %&amp;gt;% inner_join(pop, by = &amp;quot;municipio_cod&amp;quot;) %&amp;gt;% select(municipio_cod, municipio_nome, lon, lat, populacao_estimada, geometry)Plot Brazil Map#X11()ggplot(data = dados_brasil) +geom_point(aes(x=lon,y=lat,size=populacao_estimada), colour = &amp;quot;#cffdfd&amp;quot;, alpha = 0.</description>
+    </item>
     
     <item>
       <title>00_Post</title>
@@ -18,6 +27,26 @@
       
       <guid>/2020/02/15/00_post/</guid>
       <description>This is a new post content</description>
+    </item>
+    
+    <item>
+      <title>hdi</title>
+      <link>/2020/02/15/hdi/</link>
+      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/15/hdi/</guid>
+      <description>Human Development Index aplied to the municipalities in BrazilThe data comes from IBGE
+The code can be seen on my Github</description>
+    </item>
+    
+    <item>
+      <title>HDI-M (aplied to the municipalities in Brazil)</title>
+      <link>/2020/02/15/hdi-m-aplied-to-the-municipalities-in-brazil/</link>
+      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/15/hdi-m-aplied-to-the-municipalities-in-brazil/</guid>
+      <description>Human Development Index aplied to the municipalities in BrazilThe data comes from IBGE
+The code can be seen on my Github</description>
     </item>
     
     <item>

@@ -1,0 +1,68 @@
+---
+title: "Distribution of brazilian population (2019)"
+date: 2020-02-16
+---
+
+```{r setup, include=T}
+knitr::opts_chunk$set(echo = TRUE, warning=F,  message=FALSE)
+```
+
+# With Codes
+```{r}
+library(dplyr)
+library(readxl)
+library(tidyverse)
+library(janitor)
+
+```
+
+### Load data
+```{r}
+pop = tempfile(fileext = ".xls")
+dataURL <- "ftp://ftp.ibge.gov.br/Estimativas_de_Populacao/Estimativas_2019/estimativa_dou_2019.xls"
+download.file(dataURL, destfile=pop, mode='wb')
+
+pop <- readxl::read_excel(pop, sheet =2, skip = 1) %>% 
+  clean_names() %>% 
+  drop_na()
+
+mapa <- brmap::brmap_municipio_simples %>% 
+  clean_names()
+
+# Manipular e mesclar bases
+pop <- pop %>% 
+  mutate(populacao_estimada = as.numeric(populacao_estimada),
+         municipio_cod = paste0(cod_uf, cod_munic)) %>% 
+  drop_na()
+
+dados_brasil <- mapa  %>% 
+  mutate(municipio_cod = as.character(municipio_cod)) %>% 
+  inner_join(pop, by = "municipio_cod") %>% 
+  select(municipio_cod, municipio_nome, lon, lat, populacao_estimada,  geometry)
+```
+
+### Plot Brazil Map
+```{r, fig.width=8,fig.height=8, fig.align='right'}
+#X11()
+ggplot(data = dados_brasil) +
+  geom_point(aes(x=lon,y=lat,size=populacao_estimada), 
+             colour = "#cffdfd", alpha = 0.5, shape = 19) +
+  scale_size_area(max_size = 30) +
+  geom_sf(data=brmap::brmap_estado, fill=NA, 
+         color = alpha("#ccff00", .4), lty = 3)+
+  coord_sf()+ # Modificado: xlim = c(-90, -20), ylim = c(-50, 0), expand =F # Não funcionou para aumentar o mapa
+  theme_classic() + 
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    plot.title       = element_text(color = "lightgrey", hjust = 0.5, size = 25),
+    panel.background = element_rect(fill = "#000000"),
+    plot.background  = element_rect(fill = "#000000"),
+    legend.position  = "none",
+    axis.ticks       = element_blank(),
+    axis.text        = element_blank(),
+    axis.line        = element_blank()) + 
+    labs(title = "Municipalities in Brazil by population", x= NULL, y = NULL) 
+```
+
+#### Inspired by [Municipalities in Spain by Population](https://mohdbilal87.github.io/dataviz-r/2019/11/14/municipalities-in-spain-by-population/) 
