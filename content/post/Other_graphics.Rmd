@@ -11,45 +11,16 @@ knitr::opts_chunk$set()
 ```
 
 #Scatterplot with notes 
-![](/post/Other_graphics_files/scartter_with_notes.png)
+![](/post/Other_graphics_files/scartter_with_notes.png){width=90% height=90%}
+
 * Designed to be plotted on my works. See the Publication Tab.
 
-    See code
-```{r eval=FALSE, include=T}
-plot <- ggplot(tb_final, aes(x= estr_inst, y= arq_part))+
-  geom_point(aes(fill=areas), show.legend=F, 
-             colour="black",pch=21, size=8, stroke=1.2, alpha=0.5)+
-  scale_fill_brewer(palette="Paired")+
-  scale_y_continuous(breaks = c(0.2, 0.4, 0.6, 0.8, 1))+
-  scale_x_continuous(breaks = c(0.2, 0.4, 0.6, 0.8, 1))+
-  geom_vline(xintercept = 0.48, linetype= "dotdash") +
-  geom_text(aes(x=0.47, y=0.90, label="Média Estr. Inst = 0,48"), 
-            angle=90, size=7)+
-  geom_hline(yintercept = 0.58, linetype= "dotdash") +
-  geom_text(aes(x=0.90, y=0.60, label="Média Arq. Part = 0,58"),
-                size=7)+
-  geom_text(aes(label=areas), hjust=1, vjust=-0.5, size=8) +
-  scale_size_area(max_size = 10)+
-  expand_limits (x = 0.1) + # ajusta os eixos para iniciar em 0.
-  #ggtitle("Estrutura Institucional e Arquitetura da Participação") +
-  xlab("Estrutura Institucional") +
-  ylab("Arquitetura da Participação") +
-  annotate("text", x = 0.75, y = 1, 
-           label = "Forte Arq. Part. e Forte Estr. Inst.", color="red", size = 7) +
-  annotate("text", x = 0.75, y = 0.1, 
-           label = "Fraca Arq. Part. e Forte Estr. Inst.", color="red", size = 7) +
-  annotate("text", x = 0.3, y = 0.1, 
-           label = "Fraca Arq. Part. e Fraca Estr. Inst.", color="red", size = 7)+
-  annotate("text", x = 0.3, y = 1, 
-           label = "Forte Arq. Part. e Fraca Estr. Inst.", color="red", size = 7)+
-  theme_classic()+
-  theme(text = element_text(size=30))
-```
-
 #Wave graphic (density graphic)
-![](/post/Other_graphics_files/density.png)
+![](/post/Other_graphics_files/density.png){width=90% height=90%}
+
 * Designed to be plotted on my works. See the Publication Tab.
 
 #Wordcloud
 ![](/post/Other_graphics_files/wordcloud.png)
+
 * Designed to be plotted on my works. See the Publication Tab.

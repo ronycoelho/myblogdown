@@ -22,11 +22,6 @@
 
 
 
-
-<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
-
-
-
 <link rel="stylesheet" href="/css/fonts.css" media="all">
 <link rel="stylesheet" href="/css/main.css" media="all">
 
@@ -66,7 +61,7 @@
 
   <article class="article">
     
-    <span class="article-duration">2 min read</span>
+    <span class="article-duration">1 min read</span>
     
 
     <h1 class="article-title">Other Graphics on my works</h1>
@@ -81,44 +76,33 @@
 
 <div id="scatterplot-with-notes" class="section level1">
 <h1>Scatterplot with notes</h1>
-<p><img src="/post/Other_graphics_files/scartter_with_notes.png" /> * Designed to be plotted on my works. See the Publication Tab.</p>
-<pre><code>See code</code></pre>
-<pre class="r"><code>plot &lt;- ggplot(tb_final, aes(x= estr_inst, y= arq_part))+
-  geom_point(aes(fill=areas), show.legend=F, 
-             colour=&quot;black&quot;,pch=21, size=8, stroke=1.2, alpha=0.5)+
-  scale_fill_brewer(palette=&quot;Paired&quot;)+
-  scale_y_continuous(breaks = c(0.2, 0.4, 0.6, 0.8, 1))+
-  scale_x_continuous(breaks = c(0.2, 0.4, 0.6, 0.8, 1))+
-  geom_vline(xintercept = 0.48, linetype= &quot;dotdash&quot;) +
-  geom_text(aes(x=0.47, y=0.90, label=&quot;Média Estr. Inst = 0,48&quot;), 
-            angle=90, size=7)+
-  geom_hline(yintercept = 0.58, linetype= &quot;dotdash&quot;) +
-  geom_text(aes(x=0.90, y=0.60, label=&quot;Média Arq. Part = 0,58&quot;),
-                size=7)+
-  geom_text(aes(label=areas), hjust=1, vjust=-0.5, size=8) +
-  scale_size_area(max_size = 10)+
-  expand_limits (x = 0.1) + # ajusta os eixos para iniciar em 0.
-  #ggtitle(&quot;Estrutura Institucional e Arquitetura da Participação&quot;) +
-  xlab(&quot;Estrutura Institucional&quot;) +
-  ylab(&quot;Arquitetura da Participação&quot;) +
-  annotate(&quot;text&quot;, x = 0.75, y = 1, 
-           label = &quot;Forte Arq. Part. e Forte Estr. Inst.&quot;, color=&quot;red&quot;, size = 7) +
-  annotate(&quot;text&quot;, x = 0.75, y = 0.1, 
-           label = &quot;Fraca Arq. Part. e Forte Estr. Inst.&quot;, color=&quot;red&quot;, size = 7) +
-  annotate(&quot;text&quot;, x = 0.3, y = 0.1, 
-           label = &quot;Fraca Arq. Part. e Fraca Estr. Inst.&quot;, color=&quot;red&quot;, size = 7)+
-  annotate(&quot;text&quot;, x = 0.3, y = 1, 
-           label = &quot;Forte Arq. Part. e Fraca Estr. Inst.&quot;, color=&quot;red&quot;, size = 7)+
-  theme_classic()+
-  theme(text = element_text(size=30))</code></pre>
+<div class="figure">
+<img src="/post/Other_graphics_files/scartter_with_notes.png" style="width:90.0%" style="height:90.0%" />
+
+</div>
+<ul>
+<li>Designed to be plotted on my works. See the Publication Tab.</li>
+</ul>
 </div>
 <div id="wave-graphic-density-graphic" class="section level1">
 <h1>Wave graphic (density graphic)</h1>
-<p><img src="/post/Other_graphics_files/density.png" /> * Designed to be plotted on my works. See the Publication Tab.</p>
+<div class="figure">
+<img src="/post/Other_graphics_files/density.png" style="width:90.0%" style="height:90.0%" />
+
+</div>
+<ul>
+<li>Designed to be plotted on my works. See the Publication Tab.</li>
+</ul>
 </div>
 <div id="wordcloud" class="section level1">
 <h1>Wordcloud</h1>
-<p><img src="/post/Other_graphics_files/wordcloud.png" /> * Designed to be plotted on my works. See the Publication Tab.</p>
+<div class="figure">
+<img src="/post/Other_graphics_files/wordcloud.png" />
+
+</div>
+<ul>
+<li>Designed to be plotted on my works. See the Publication Tab.</li>
+</ul>
 </div>
 
     </div>
@@ -142,18 +126,6 @@
 
     </div>
     
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-
-
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
-<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
-
-
 
     
 

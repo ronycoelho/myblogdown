@@ -9,6 +9,7 @@ output:
     code_folding: hide
 ---
 
+To see how it works, go to this [link](https://rpubs.com/r_rabbit/Toc_float) on my Rpubs page
 ```{r setup, include=T}
 knitr::opts_chunk$set(echo = TRUE)
 
