@@ -1,6 +1,6 @@
 ---
-title: "HDI-M and GINI in Brazil \n (1991, 2000, 2010)"
-date: 02
+title: "HDI-M and GINI in Brazil (1991, 2000, 2010)"
+date: 2020-02-15
 ---
 
 
@@ -35,7 +35,7 @@ dt &lt;- brmap_municipio %&gt;%
         legend.position = &quot;bottom&quot;, 
         #legend.justification = c(1, 1),
         legend.direction = &quot;horizontal&quot;,
-        legend.key.width = unit (2, &quot;in&quot;),
+        legend.key.width = unit (1, &quot;in&quot;),
         legend.background = element_blank(),
         legend.text = element_text(size = 12),
         legend.title = element_text(size=12),
@@ -50,7 +50,7 @@ dt &lt;- brmap_municipio %&gt;%
   geom_sf(data=brmap::brmap_estado, fill=NA, color = &quot;black&quot;)+
   theme_map_br +
   facet_wrap(~ano)</code></pre>
-<p><img src="/post/idh_gini_files/figure-html/unnamed-chunk-4-1.png" width="960" /></p>
+<p><img src="/post/idh_gini_files/figure-html/unnamed-chunk-4-1.png" width="768" /></p>
 </div>
 <div id="plot-gini-1991-2000-2010" class="section level1">
 <h1>Plot GINI (1991, 2000, 2010)</h1>
@@ -61,5 +61,5 @@ dt &lt;- brmap_municipio %&gt;%
   geom_sf(data=brmap::brmap_estado, fill=NA, color = &quot;black&quot;)+
   theme_map_br +
   facet_wrap(~ano)</code></pre>
-<p><img src="/post/idh_gini_files/figure-html/unnamed-chunk-5-1.png" width="960" /></p>
+<p><img src="/post/idh_gini_files/figure-html/unnamed-chunk-5-1.png" width="768" /></p>
 </div>

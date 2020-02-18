@@ -1,6 +1,6 @@
 ---
 title: "HDI-M and GINI in Brazil (1991, 2000, 2010)"
-date: 02
+date: 2020-02-15
 ---
 
 ```{r setup, include=FALSE}
@@ -39,7 +39,7 @@ theme_map_br <- theme(panel.background = element_rect(fill = "transparent"),
         legend.position = "bottom", 
         #legend.justification = c(1, 1),
         legend.direction = "horizontal",
-        legend.key.width = unit (2, "in"),
+        legend.key.width = unit (1, "in"),
         legend.background = element_blank(),
         legend.text = element_text(size = 12),
         legend.title = element_text(size=12),
@@ -47,7 +47,7 @@ theme_map_br <- theme(panel.background = element_rect(fill = "transparent"),
 ```
 
 # Plot HDI-M (1991, 2000, 2010)
-```{r fig.height=10, fig.width=10}
+```{r fig.height=8, fig.width=8}
 ggplot(dt)+
   geom_sf(aes(fill=idhm), colour = alpha("white", .2), lty=3)+
   scale_fill_viridis_c("HDI-M", option = "inferno")+
@@ -58,7 +58,7 @@ ggplot(dt)+
 ```
 
 # Plot GINI (1991, 2000, 2010)
-```{r fig.height=10, fig.width=10}
+```{r fig.height=8, fig.width=8}
 ggplot(dt)+
   geom_sf(aes(fill=gini), colour = alpha("white", .2), lty=3)+
   scale_fill_viridis_c("GINI", option = "inferno", direction = -1)+

@@ -1,6 +1,6 @@
 ---
 title: "Scartterplot (with link to dinamic version)"
-date: 01
+date: 2020-01-30
 ---
 
 ```{r setup, include=FALSE}
@@ -8,7 +8,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Go to the [dinamic version](https://rpubs.com/r_rabbit/512787) of the plot on my Rpubs page
+![](/post/Scartterplot_files/scarterplot.png){width=80% height=80%}
 
-![](/post/Scartterplot_files/scarterplot.png)
-
-*Confidential data
+* Designed to be plotted on my works. See the Publication Tab.

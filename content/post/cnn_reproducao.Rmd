@@ -1,0 +1,163 @@
+---
+title: "Working in progress..."
+data: 2019-01-07
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
+```
+
+## Municípios que podem ser extintos \nde acordo com a PEC do pacto federativo (PEC 188/2019)
+
+### Reprodução dos dados da Confederação Nacional dos Municípios -  [CNM](https://www.cnm.org.br/comunicacao/noticias/nota-sobre-a-proposta-do-governo-federal-de-extincao-de-municipios) 
+
+#### Fonte: [Siconfi](https://siconfi.tesouro.gov.br/siconfi/pages/public/consulta_finbra/finbra_list.jsf)
+Seleções:
+
+* Exercício: 2018
+
+* Escopo: municipío
+
+* Tabela: Receitas Orçamentárias (Anexo I-C)
+#### Inicializar
+```{r}
+#options(scipen=999)
+library(tidyverse)
+library(janitor)
+library(readxl)
+library(kableExtra)
+#setwd("C:/r_files/finbra")
+# nome do arquivo Rmd: cnn_reproducao
+```
+
+#### Carregar dados
+```{r}
+# receitas
+rec <- read_csv2("finbra_2018_receitas.csv", skip = 3, locale(encoding = "ISO-8859-1"), 
+                      col_names = TRUE, col_types = NULL) %>% 
+  janitor::clean_names()
+
+# populacao atualizada
+pop = tempfile(fileext = ".xls")
+dataURL <- "ftp://ftp.ibge.gov.br/Estimativas_de_Populacao/Estimativas_2019/estimativa_dou_2019.xls"
+download.file(dataURL, destfile=pop, mode='wb')
+
+# Apenas os municípios com menos de 5.000 habitantes
+# Total = 1.253 - compatível com o informado no relatório da CNM
+pop <- readxl::read_excel(pop, sheet =2, skip = 1) %>% 
+  clean_names() %>% 
+  mutate(cod_ibge = paste0(cod_uf, cod_munic)) %>% 
+  select(1,4:6) %>% 
+  mutate(populacao_estimada = as.numeric(populacao_estimada)) %>% 
+  filter(populacao_estimada <= 5000) %>% 
+  drop_na()
+```
+
+### Calcular impostos recolhidos pelos municípios   
+```{r}
+# Carregar os "impostos totais" e cada um deles separados 
+#com a finalidade de verificação.
+imp <- c("1.1.1.8.00.0.0", # Impostos totais
+              "1.1.1.8.01.1.0", # IPTU
+              "1.1.1.8.02.3.0", # ISS
+              "1.1.1.8.01.4.0") # ITBI
+
+cal_imp <- rec %>% 
+  #head(1000) %>% 
+  select(cod_ibge, coluna, conta, valor) %>% 
+  filter(coluna == "Receitas Brutas Realizadas") %>% 
+  separate(conta, c("codigo"), sep =14) %>% 
+  filter(codigo %in% imp) %>% 
+  spread(codigo, valor) %>% 
+  rename(imp_total = "1.1.1.8.00.0.0",
+         iptu = "1.1.1.8.01.1.0",
+         iss = "1.1.1.8.01.4.0",
+         itbi = "1.1.1.8.02.3.0") %>% 
+  mutate(impostos  = iptu + iss + itbi) %>% 
+  mutate(cod_ibge = as.character(cod_ibge)) %>% 
+  inner_join(pop) 
+
+cal_imp %>%  
+  select(nome_do_municipio,
+         uf,
+         imp_total,
+         iptu,
+         iss,
+         itbi,
+         impostos) %>% 
+  arrange(uf, nome_do_municipio) %>%  
+  head(50) %>% 
+  knitr::kable() %>% 
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "center")%>% 
+  scroll_box(width = "100%", height = "400px")
+```
+
+##### Observação:
+* Valores compatíveis com os apresentados no Relatório da [CNM](https://www.cnm.org.br/cms/biblioteca/1217_Munic%c3%adpios_Podem_Ser_Extintos.pdf). 
+
+A rúbrica "1.1.1.8.00.0.0" (imp_total) é exatamente a soma do IPTU+ITBI+ISS. Não obstante, a melhor opção é utilizar o imp_total pois apresenta menor quantidade de 'NA'
+
+### Receita Liquida
+
+* Receita Corrente Líquida = Receita Corrente – (Deduções da Receita Corrente + Contribuições Sociais)
+```{r}
+rec_cor <- c("1.0.0.0.00.0.0") #Receitas Correntes
+# Seleciona tanto as "receitas" das "Receitas Brutas realizadas"
+# quanto as receitas das "Deduções"
+
+rec_liq <- rec %>%
+  #head(1000) %>% 
+  separate(conta, c("codigo"), sep =14) %>% 
+  # No arquivo finbra existem valores positivos e negativos para as deduções. Para padronizar, tornar todos valores absolutos
+  mutate(valor = abs(valor)) %>% 
+  #Se não for Receita Bruta realizada, trata-se de dedução, o valor deve ser multipliado por -1
+  mutate(valor = ifelse(coluna== "Receitas Brutas Realizadas", valor, -valor))%>% 
+  filter(codigo %in% rec_cor) %>% 
+  group_by(cod_ibge) %>%  
+  summarise(rec_liquida = sum(valor)) %>% 
+  ungroup() %>% 
+  #select(-codigo) %>% 
+  mutate(cod_ibge = as.character(cod_ibge)) %>% 
+  inner_join(pop) %>% 
+  select(cod_ibge, nome_do_municipio, uf, rec_liquida) %>% 
+  arrange(uf, nome_do_municipio)
+  
+rec_liq %>%
+  select(-cod_ibge) %>% 
+  head(30)%>% 
+  knitr::kable()%>% 
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "center")%>% 
+  scroll_box(width = "100%", height = "400px")
+```
+##### Observação:
+
+* Alguns valores são outros não são compatíveis com os apresentados no Relatório da [CNM](https://www.cnm.org.br/cms/biblioteca/1217_Munic%c3%adpios_Podem_Ser_Extintos.pdf). Como as diferenças não são 'gritantes', é possível calcular a "Sustentabilidade Financieira dos municipios"
+
+## Cálculo da Sustentabilidade Financeira
+```{r}
+sust_fin <- cal_imp %>% 
+  select(cod_ibge, populacao_estimada, imp_total) %>% 
+  inner_join(rec_liq, by= "cod_ibge") %>% 
+#  head(100) %>% 
+  mutate(per = (imp_total/rec_liquida)*100) %>% 
+  mutate(per = round(per, 1)) %>% 
+  filter(per < 10) %>% 
+  arrange(uf, nome_do_municipio) %>% 
+  select(nome_do_municipio, 
+         uf, 
+         populacao_estimada, 
+         rec_liquida,
+         imp_total,
+         per) %>% 
+  arrange(uf, nome_do_municipio) 
+
+sust_fin %>% 
+  knitr::kable() %>% 
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "center") %>% 
+  scroll_box(width = "100%", height = "400px")
+
+```
+
+##### Observação:
+
+* Valores compatíveis com os apresentados no Relatório da [CNM](https://www.cnm.org.br/cms/biblioteca/1217_Munic%c3%adpios_Podem_Ser_Extintos.pdf), com muito baixa variação. Não obstante, foram encontrados 1.129 municípios com menos de 5.000 habitantes e com menos de 10% de sustentabilidade financeira, calculada quociente da arrecadação de impostos municipais (IPTU+ISS+ITBI) sobre a receita líquida. A CNM encontrou 1.217 municípios, uma diferença de 88 localidades.

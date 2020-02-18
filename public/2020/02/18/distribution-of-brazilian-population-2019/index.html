@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.64.1" />
+
+
+<title>Distribution of brazilian population (2019) - Rony Coelho</title>
+<meta property="og:title" content="Distribution of brazilian population (2019) - Rony Coelho">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/">Home</a></li>
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="/mypublications/">Publications</a></li>
+    
+    <li><a href="https://github.com/ronycoelho">GitHub</a></li>
+    
+    <li><a href="http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4454705J6">CV</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Distribution of brazilian population (2019)</h1>
+
+    
+    <span class="article-date"></span>
+    
+
+    <div class="article-content">
+      
+
+
+<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE, warning=F,  message=FALSE)</code></pre>
+<div id="with-codes" class="section level1">
+<h1>With Codes</h1>
+<pre class="r"><code>library(dplyr)
+library(readxl)
+library(tidyverse)
+library(janitor)</code></pre>
+<div id="load-data" class="section level3">
+<h3>Load data</h3>
+<pre class="r"><code>pop = tempfile(fileext = &quot;.xls&quot;)
+dataURL &lt;- &quot;ftp://ftp.ibge.gov.br/Estimativas_de_Populacao/Estimativas_2019/estimativa_dou_2019.xls&quot;
+download.file(dataURL, destfile=pop, mode=&#39;wb&#39;)
+
+pop &lt;- readxl::read_excel(pop, sheet =2, skip = 1) %&gt;% 
+  clean_names() %&gt;% 
+  drop_na()
+
+mapa &lt;- brmap::brmap_municipio_simples %&gt;% 
+  clean_names()
+
+# Manipular e mesclar bases
+pop &lt;- pop %&gt;% 
+  mutate(populacao_estimada = as.numeric(populacao_estimada),
+         municipio_cod = paste0(cod_uf, cod_munic)) %&gt;% 
+  drop_na()
+
+dados_brasil &lt;- mapa  %&gt;% 
+  mutate(municipio_cod = as.character(municipio_cod)) %&gt;% 
+  inner_join(pop, by = &quot;municipio_cod&quot;) %&gt;% 
+  select(municipio_cod, municipio_nome, lon, lat, populacao_estimada,  geometry)</code></pre>
+</div>
+<div id="plot-brazil-map" class="section level3">
+<h3>Plot Brazil Map</h3>
+<pre class="r"><code>#X11()
+ggplot(data = dados_brasil) +
+  geom_point(aes(x=lon,y=lat,size=populacao_estimada), 
+             colour = &quot;#cffdfd&quot;, alpha = 0.5, shape = 19) +
+  scale_size_area(max_size = 30) +
+  geom_sf(data=brmap::brmap_estado, fill=NA, 
+         color = alpha(&quot;#ccff00&quot;, .4), lty = 3)+
+  coord_sf()+ # Modificado: xlim = c(-90, -20), ylim = c(-50, 0), expand =F # Não funcionou para aumentar o mapa
+  theme_classic() + 
+  theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    plot.title       = element_text(color = &quot;lightgrey&quot;, hjust = 0.5, size = 25),
+    panel.background = element_rect(fill = &quot;#000000&quot;),
+    plot.background  = element_rect(fill = &quot;#000000&quot;),
+    legend.position  = &quot;none&quot;,
+    axis.ticks       = element_blank(),
+    axis.text        = element_blank(),
+    axis.line        = element_blank()) + 
+    labs(title = &quot;Municipalities in Brazil by population&quot;, x= NULL, y = NULL) </code></pre>
+<p><img src="/post/brazilian_population_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto 0 auto auto;" /></p>
+<div id="inspired-by-municipalities-in-spain-by-population" class="section level4">
+<h4>Inspired by <a href="https://mohdbilal87.github.io/dataviz-r/2019/11/14/municipalities-in-spain-by-population/">Municipalities in Spain by Population</a></h4>
+</div>
+</div>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+

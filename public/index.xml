@@ -6,10 +6,47 @@
     <description>Recent content on Rony Coelho</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 05 May 2016 21:48:51 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 18 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Distribution of brazilian population (2019)</title>
+      <link>/2020/02/18/distribution-of-brazilian-population-2019/</link>
+      <pubDate>Tue, 18 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/18/distribution-of-brazilian-population-2019/</guid>
+      <description>knitr::opts_chunk$set(echo = TRUE, warning=F, message=FALSE)With Codeslibrary(dplyr)library(readxl)library(tidyverse)library(janitor)Load datapop = tempfile(fileext = &amp;quot;.xls&amp;quot;)dataURL &amp;lt;- &amp;quot;ftp://ftp.ibge.gov.br/Estimativas_de_Populacao/Estimativas_2019/estimativa_dou_2019.xls&amp;quot;download.file(dataURL, destfile=pop, mode=&amp;#39;wb&amp;#39;)pop &amp;lt;- readxl::read_excel(pop, sheet =2, skip = 1) %&amp;gt;% clean_names() %&amp;gt;% drop_na()mapa &amp;lt;- brmap::brmap_municipio_simples %&amp;gt;% clean_names()# Manipular e mesclar basespop &amp;lt;- pop %&amp;gt;% mutate(populacao_estimada = as.numeric(populacao_estimada),municipio_cod = paste0(cod_uf, cod_munic)) %&amp;gt;% drop_na()dados_brasil &amp;lt;- mapa %&amp;gt;% mutate(municipio_cod = as.character(municipio_cod)) %&amp;gt;% inner_join(pop, by = &amp;quot;municipio_cod&amp;quot;) %&amp;gt;% select(municipio_cod, municipio_nome, lon, lat, populacao_estimada, geometry)Plot Brazil Map#X11()ggplot(data = dados_brasil) +geom_point(aes(x=lon,y=lat,size=populacao_estimada), colour = &amp;quot;#cffdfd&amp;quot;, alpha = 0.</description>
+    </item>
+    
+    <item>
+      <title>HDI-M and GINI in Brazil (1991, 2000, 2010)</title>
+      <link>/2020/02/15/hdi-m-and-gini-in-brazil-1991-2000-2010/</link>
+      <pubDate>Sat, 15 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/15/hdi-m-and-gini-in-brazil-1991-2000-2010/</guid>
+      <description>Load librarieslibrary(tidyverse)library(janitor)library(brmap)Load dataidh_gini = tempfile(fileext = &amp;quot;.xlsx&amp;quot;)dataURL &amp;lt;- &amp;quot;https://github.com/ronycoelho/databases/raw/master/idh_census.xlsx&amp;quot;download.file(dataURL, destfile=idh_gini, mode=&amp;#39;wb&amp;#39;)idh_gini &amp;lt;- readxl::read_excel(idh_gini, sheet =2) %&amp;gt;% clean_names() %&amp;gt;% select(ano, codmun7, gini, idhm)dt &amp;lt;- brmap_municipio %&amp;gt;% inner_join(idh_gini, by = c(&amp;quot;municipio_cod&amp;quot; = &amp;quot;codmun7&amp;quot;))Theme maptheme_map_br &amp;lt;- theme(panel.background = element_rect(fill = &amp;quot;transparent&amp;quot;), panel.grid.major = element_line(color = &amp;quot;transparent&amp;quot;), axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(),legend.position = &amp;quot;bottom&amp;quot;, #legend.justification = c(1, 1),legend.</description>
+    </item>
+    
+    <item>
+      <title>Scartterplot (with link to dinamic version)</title>
+      <link>/2020/01/30/scartterplot-with-link-to-dinamic-version/</link>
+      <pubDate>Thu, 30 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/01/30/scartterplot-with-link-to-dinamic-version/</guid>
+      <description>Go to the dinamic version of the plot on my Rpubs page
+*Confidential data</description>
+    </item>
+    
+    <item>
+      <title>Other Graphics on my works</title>
+      <link>/2019/01/08/other-graphics-on-my-works/</link>
+      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/01/08/other-graphics-on-my-works/</guid>
+      <description>Scatterplot with notesSee codeplot &amp;lt;- ggplot(tb_final, aes(x= estr_inst, y= arq_part))+geom_point(aes(fill=areas), show.legend=F, colour=&amp;quot;black&amp;quot;,pch=21, size=8, stroke=1.2, alpha=0.5)+scale_fill_brewer(palette=&amp;quot;Paired&amp;quot;)+scale_y_continuous(breaks = c(0.2, 0.4, 0.6, 0.8, 1))+scale_x_continuous(breaks = c(0.2, 0.4, 0.6, 0.8, 1))+geom_vline(xintercept = 0.48, linetype= &amp;quot;dotdash&amp;quot;) +geom_text(aes(x=0.47, y=0.90, label=&amp;quot;Média Estr. Inst = 0,48&amp;quot;), angle=90, size=7)+geom_hline(yintercept = 0.58, linetype= &amp;quot;dotdash&amp;quot;) +geom_text(aes(x=0.90, y=0.60, label=&amp;quot;Média Arq. Part = 0,58&amp;quot;),size=7)+geom_text(aes(label=areas), hjust=1, vjust=-0.5, size=8) +scale_size_area(max_size = 10)+expand_limits (x = 0.</description>
+    </item>
     
     <item>
       <title>About</title>
@@ -21,32 +58,26 @@
     </item>
     
     <item>
-      <title>Distribution of brazilian population (2019)</title>
-      <link>/1969/12/31/distribution-of-brazilian-population-2019/</link>
-      <pubDate>Wed, 31 Dec 1969 21:00:03 -0300</pubDate>
+      <title></title>
+      <link>/1/01/01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/1969/12/31/distribution-of-brazilian-population-2019/</guid>
-      <description>knitr::opts_chunk$set(echo = TRUE, warning=F, message=FALSE)With Codeslibrary(dplyr)library(readxl)library(tidyverse)library(janitor)Load datapop = tempfile(fileext = &amp;quot;.xls&amp;quot;)dataURL &amp;lt;- &amp;quot;ftp://ftp.ibge.gov.br/Estimativas_de_Populacao/Estimativas_2019/estimativa_dou_2019.xls&amp;quot;download.file(dataURL, destfile=pop, mode=&amp;#39;wb&amp;#39;)pop &amp;lt;- readxl::read_excel(pop, sheet =2, skip = 1) %&amp;gt;% clean_names() %&amp;gt;% drop_na()mapa &amp;lt;- brmap::brmap_municipio_simples %&amp;gt;% clean_names()# Manipular e mesclar basespop &amp;lt;- pop %&amp;gt;% mutate(populacao_estimada = as.numeric(populacao_estimada),municipio_cod = paste0(cod_uf, cod_munic)) %&amp;gt;% drop_na()dados_brasil &amp;lt;- mapa %&amp;gt;% mutate(municipio_cod = as.character(municipio_cod)) %&amp;gt;% inner_join(pop, by = &amp;quot;municipio_cod&amp;quot;) %&amp;gt;% select(municipio_cod, municipio_nome, lon, lat, populacao_estimada, geometry)Plot Brazil Map#X11()ggplot(data = dados_brasil) +geom_point(aes(x=lon,y=lat,size=populacao_estimada), colour = &amp;quot;#cffdfd&amp;quot;, alpha = 0.</description>
+      <guid>/1/01/01/</guid>
+      <description></description>
     </item>
     
     <item>
-      <title>Scartterplot (with link to dinamic version)</title>
-      <link>/1969/12/31/scartterplot-with-link-to-dinamic-version/</link>
-      <pubDate>Wed, 31 Dec 1969 21:00:03 -0300</pubDate>
+      <title>Municípios que podem ser extintos 
+de acordo com a PEC do pacto federativo (PEC 188/2019)</title>
+      <link>/1/01/01/munic%C3%ADpios-que-podem-ser-extintos-de-acordo-com-a-pec-do-pacto-federativo-pec-188/2019/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/1969/12/31/scartterplot-with-link-to-dinamic-version/</guid>
-      <description>Go to the dinamic version of the plot on my Rpubs page
-*Confidential data</description>
-    </item>
-    
-    <item>
-      <title>HDI-M and GINI in Brazil 
- (1991, 2000, 2010)</title>
-      <link>/1969/12/31/hdi-m-and-gini-in-brazil-1991-2000-2010/</link>
-      <pubDate>Wed, 31 Dec 1969 21:00:02 -0300</pubDate>
-      
-      <guid>/1969/12/31/hdi-m-and-gini-in-brazil-1991-2000-2010/</guid>
-      <description>Load librarieslibrary(tidyverse)library(janitor)library(brmap)Load dataidh_gini = tempfile(fileext = &amp;quot;.xlsx&amp;quot;)dataURL &amp;lt;- &amp;quot;https://github.com/ronycoelho/databases/raw/master/idh_census.xlsx&amp;quot;download.file(dataURL, destfile=idh_gini, mode=&amp;#39;wb&amp;#39;)idh_gini &amp;lt;- readxl::read_excel(idh_gini, sheet =2) %&amp;gt;% clean_names() %&amp;gt;% select(ano, codmun7, gini, idhm)dt &amp;lt;- brmap_municipio %&amp;gt;% inner_join(idh_gini, by = c(&amp;quot;municipio_cod&amp;quot; = &amp;quot;codmun7&amp;quot;))Theme maptheme_map_br &amp;lt;- theme(panel.background = element_rect(fill = &amp;quot;transparent&amp;quot;), panel.grid.major = element_line(color = &amp;quot;transparent&amp;quot;), axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(),legend.position = &amp;quot;bottom&amp;quot;, #legend.justification = c(1, 1),legend.</description>
+      <guid>/1/01/01/munic%C3%ADpios-que-podem-ser-extintos-de-acordo-com-a-pec-do-pacto-federativo-pec-188/2019/</guid>
+      <description>Reprodução dos dados da Confederação Nacional dos Municípios - CNMFonte: SiconfiSeleções:
+Exercício: 2018
+Escopo: municipío
+Tabela: Receitas Orçamentárias (Anexo I-C)
+Inicializar#options(scipen=999)library(tidyverse)library(janitor)library(readxl)library(kableExtra)#setwd(&amp;quot;C:/r_files/finbra&amp;quot;)# nome do arquivo Rmd: cnn_reproducaoCarregar dados# receitasrec &amp;lt;- read_csv2(&amp;quot;finbra_2018_receitas.csv&amp;quot;, skip = 3, locale(encoding = &amp;quot;ISO-8859-1&amp;quot;), col_names = TRUE, col_types = NULL) %&amp;gt;% janitor::clean_names()# populacao atualizadapop = tempfile(fileext = &amp;quot;.</description>
     </item>
     
     <item>
@@ -58,6 +89,16 @@
       <description>Articles and papers published  ALMEIDA, Carla C.; COELHO, Rony; MARTELLI, Carla G. G.; LUCHMANN, Lígia H. H. A participação conselhista no Brasil. Uma proposta de análise por meio do Índice de Potencial Participativo dos Conselhos nos municípios (IPPC). (Acess here)
   COELHO, RONY. Legislação Participativa: atores, iniciativas e processo legislativo. Interseções (UERJ), v. 17, p. 189-225, 2015. (Acess here)
   COELHO, Rony. Proposições Legislativas da Sociedade Civil no Brasil.</description>
+    </item>
+    
+    <item>
+      <title>Technical stuffs - Toc_float</title>
+      <link>/1/01/01/technical-stuffs-toc_float/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/1/01/01/technical-stuffs-toc_float/</guid>
+      <description>knitr::opts_chunk$set(echo = TRUE)#yaml#----#title: &amp;quot;Habits&amp;quot;#output:# html_document:# toc: true# toc_float: true# toc_depth: 3# code_folding: hide#---1. R MarkdownThis is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+When you click the Knit button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.</description>
     </item>
     
   </channel>
