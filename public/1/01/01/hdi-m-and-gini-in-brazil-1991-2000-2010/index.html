@@ -109,18 +109,20 @@ dt &lt;- brmap_municipio %&gt;%
         axis.text.x = element_blank(), 
         axis.text.y = element_blank(), 
         axis.ticks = element_blank(),
-        legend.position = c(0.4, 0.4), 
-        legend.justification = c(1, 1),
+        legend.position = &quot;bottom&quot;, 
+        #legend.justification = c(1, 1),
+        legend.direction = &quot;horizontal&quot;,
+        legend.margin = margin(5, 50, 5, 50),
         legend.background = element_blank(),
-        legend.text = element_text(size = 20),
-        legend.title = element_text(size=20),
-        plot.title=element_text( hjust=0, vjust=-5, face=&#39;bold&#39;))</code></pre>
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size=12),
+        plot.title=element_text(hjust=0, vjust=0, face=&#39;bold&#39;))</code></pre>
 </div>
 <div id="plot-hdi-m-1991-2000-2010" class="section level1">
 <h1>Plot HDI-M (1991, 2000, 2010)</h1>
 <pre class="r"><code>ggplot(dt)+
   geom_sf(aes(fill=idhm), colour = alpha(&quot;white&quot;, .2), lty=3)+
-  scale_fill_viridis_c(option = &quot;inferno&quot;)+
+  scale_fill_viridis_c(&quot;HDI-M&quot;, option = &quot;inferno&quot;)+
   geom_sf(data=brmap::brmap_brasil, fill=NA, color = &quot;black&quot;)+
   geom_sf(data=brmap::brmap_estado, fill=NA, color = &quot;black&quot;)+
   theme_map_br +
@@ -129,14 +131,15 @@ dt &lt;- brmap_municipio %&gt;%
 </div>
 <div id="plot-gini-1991-2000-2010" class="section level1">
 <h1>Plot GINI (1991, 2000, 2010)</h1>
-<pre class="r"><code>ggplot(dt)+
+<pre class="r"><code>X11()
+ggplot(dt)+
   geom_sf(aes(fill=gini), colour = alpha(&quot;white&quot;, .2), lty=3)+
-  scale_fill_viridis_c(option = &quot;inferno&quot;, direction = -1)+
+  scale_fill_viridis_c(&quot;GINI&quot;, option = &quot;inferno&quot;, direction = -1)+
   geom_sf(data=brmap::brmap_brasil, fill=NA, color = &quot;black&quot;)+
   geom_sf(data=brmap::brmap_estado, fill=NA, color = &quot;black&quot;)+
   theme_map_br +
   facet_wrap(~ano)</code></pre>
-<p><img src="/post/idh_gini_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/post/idh_gini_files/figure-html/unnamed-chunk-5-1.png" width="960" /></p>
 </div>
 
     </div>

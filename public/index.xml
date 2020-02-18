@@ -36,16 +36,18 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/1/01/01/hdi-m-and-gini-in-brazil-1991-2000-2010/</guid>
-      <description>Load librarieslibrary(tidyverse)library(janitor)library(brmap)Load dataidh_gini = tempfile(fileext = &amp;quot;.xlsx&amp;quot;)dataURL &amp;lt;- &amp;quot;https://github.com/ronycoelho/databases/raw/master/idh_census.xlsx&amp;quot;download.file(dataURL, destfile=idh_gini, mode=&amp;#39;wb&amp;#39;)idh_gini &amp;lt;- readxl::read_excel(idh_gini, sheet =2) %&amp;gt;% clean_names() %&amp;gt;% select(ano, codmun7, gini, idhm)dt &amp;lt;- brmap_municipio %&amp;gt;% inner_join(idh_gini, by = c(&amp;quot;municipio_cod&amp;quot; = &amp;quot;codmun7&amp;quot;))Theme maptheme_map_br &amp;lt;- theme(panel.background = element_rect(fill = &amp;quot;transparent&amp;quot;), panel.grid.major = element_line(color = &amp;quot;transparent&amp;quot;), axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(),legend.position = c(0.4, 0.4), legend.</description>
+      <description>Load librarieslibrary(tidyverse)library(janitor)library(brmap)Load dataidh_gini = tempfile(fileext = &amp;quot;.xlsx&amp;quot;)dataURL &amp;lt;- &amp;quot;https://github.com/ronycoelho/databases/raw/master/idh_census.xlsx&amp;quot;download.file(dataURL, destfile=idh_gini, mode=&amp;#39;wb&amp;#39;)idh_gini &amp;lt;- readxl::read_excel(idh_gini, sheet =2) %&amp;gt;% clean_names() %&amp;gt;% select(ano, codmun7, gini, idhm)dt &amp;lt;- brmap_municipio %&amp;gt;% inner_join(idh_gini, by = c(&amp;quot;municipio_cod&amp;quot; = &amp;quot;codmun7&amp;quot;))Theme maptheme_map_br &amp;lt;- theme(panel.background = element_rect(fill = &amp;quot;transparent&amp;quot;), panel.grid.major = element_line(color = &amp;quot;transparent&amp;quot;), axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(),legend.position = &amp;quot;bottom&amp;quot;, #legend.justification = c(1, 1),legend.</description>
     </item>
     
     <item>
-      <title>My publications</title>
+      <title>Publications</title>
       <link>/mypublications/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/mypublications/</guid>
-      <description>My publications</description>
+      <description>Articles and papers published  ALMEIDA, Carla C.; COELHO, Rony; MARTELLI, Carla G. G.; LUCHMANN, Lígia H. H.A participação conselhista no Brasil. Uma proposta de análise por meio do Índice de Potencial Participativo dos Conselhos nos municípios (IPPC). (Acess here)
+  COELHO, RONY. Legislação Participativa: atores, iniciativas e processo legislativo. Interseções (UERJ), v. 17, p. 189-225, 2015. (Acess here)
+  COELHO, Rony. Proposições Legislativas da Sociedade Civil no Brasil.</description>
     </item>
     
   </channel>
