@@ -1,6 +1,6 @@
 ---
 title: "HDI-M and GINI in Brazil \n (1991, 2000, 2010)"
-output: html_document
+date: 02
 ---
 
 
@@ -35,7 +35,7 @@ dt &lt;- brmap_municipio %&gt;%
         legend.position = &quot;bottom&quot;, 
         #legend.justification = c(1, 1),
         legend.direction = &quot;horizontal&quot;,
-        legend.margin = margin(5, 50, 5, 50),
+        legend.key.width = unit (2, &quot;in&quot;),
         legend.background = element_blank(),
         legend.text = element_text(size = 12),
         legend.title = element_text(size=12),
@@ -54,8 +54,7 @@ dt &lt;- brmap_municipio %&gt;%
 </div>
 <div id="plot-gini-1991-2000-2010" class="section level1">
 <h1>Plot GINI (1991, 2000, 2010)</h1>
-<pre class="r"><code>X11()
-ggplot(dt)+
+<pre class="r"><code>ggplot(dt)+
   geom_sf(aes(fill=gini), colour = alpha(&quot;white&quot;, .2), lty=3)+
   scale_fill_viridis_c(&quot;GINI&quot;, option = &quot;inferno&quot;, direction = -1)+
   geom_sf(data=brmap::brmap_brasil, fill=NA, color = &quot;black&quot;)+

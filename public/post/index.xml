@@ -6,27 +6,37 @@
     <description>Recent content in Posts on Rony Coelho</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 16 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 31 Dec 1969 21:00:03 -0300</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Distribution of brazilian population (2019)</title>
-      <link>/2020/02/16/distribution-of-brazilian-population-2019/</link>
-      <pubDate>Sun, 16 Feb 2020 00:00:00 +0000</pubDate>
+      <link>/1969/12/31/distribution-of-brazilian-population-2019/</link>
+      <pubDate>Wed, 31 Dec 1969 21:00:03 -0300</pubDate>
       
-      <guid>/2020/02/16/distribution-of-brazilian-population-2019/</guid>
+      <guid>/1969/12/31/distribution-of-brazilian-population-2019/</guid>
       <description>knitr::opts_chunk$set(echo = TRUE, warning=F, message=FALSE)With Codeslibrary(dplyr)library(readxl)library(tidyverse)library(janitor)Load datapop = tempfile(fileext = &amp;quot;.xls&amp;quot;)dataURL &amp;lt;- &amp;quot;ftp://ftp.ibge.gov.br/Estimativas_de_Populacao/Estimativas_2019/estimativa_dou_2019.xls&amp;quot;download.file(dataURL, destfile=pop, mode=&amp;#39;wb&amp;#39;)pop &amp;lt;- readxl::read_excel(pop, sheet =2, skip = 1) %&amp;gt;% clean_names() %&amp;gt;% drop_na()mapa &amp;lt;- brmap::brmap_municipio_simples %&amp;gt;% clean_names()# Manipular e mesclar basespop &amp;lt;- pop %&amp;gt;% mutate(populacao_estimada = as.numeric(populacao_estimada),municipio_cod = paste0(cod_uf, cod_munic)) %&amp;gt;% drop_na()dados_brasil &amp;lt;- mapa %&amp;gt;% mutate(municipio_cod = as.character(municipio_cod)) %&amp;gt;% inner_join(pop, by = &amp;quot;municipio_cod&amp;quot;) %&amp;gt;% select(municipio_cod, municipio_nome, lon, lat, populacao_estimada, geometry)Plot Brazil Map#X11()ggplot(data = dados_brasil) +geom_point(aes(x=lon,y=lat,size=populacao_estimada), colour = &amp;quot;#cffdfd&amp;quot;, alpha = 0.</description>
+    </item>
+    
+    <item>
+      <title>Scartterplot (with link to dinamic version)</title>
+      <link>/1969/12/31/scartterplot-with-link-to-dinamic-version/</link>
+      <pubDate>Wed, 31 Dec 1969 21:00:03 -0300</pubDate>
+      
+      <guid>/1969/12/31/scartterplot-with-link-to-dinamic-version/</guid>
+      <description>Go to the dinamic version of the plot on my Rpubs page
+*Confidential data</description>
     </item>
     
     <item>
       <title>HDI-M and GINI in Brazil 
  (1991, 2000, 2010)</title>
-      <link>/1/01/01/hdi-m-and-gini-in-brazil-1991-2000-2010/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <link>/1969/12/31/hdi-m-and-gini-in-brazil-1991-2000-2010/</link>
+      <pubDate>Wed, 31 Dec 1969 21:00:02 -0300</pubDate>
       
-      <guid>/1/01/01/hdi-m-and-gini-in-brazil-1991-2000-2010/</guid>
+      <guid>/1969/12/31/hdi-m-and-gini-in-brazil-1991-2000-2010/</guid>
       <description>Load librarieslibrary(tidyverse)library(janitor)library(brmap)Load dataidh_gini = tempfile(fileext = &amp;quot;.xlsx&amp;quot;)dataURL &amp;lt;- &amp;quot;https://github.com/ronycoelho/databases/raw/master/idh_census.xlsx&amp;quot;download.file(dataURL, destfile=idh_gini, mode=&amp;#39;wb&amp;#39;)idh_gini &amp;lt;- readxl::read_excel(idh_gini, sheet =2) %&amp;gt;% clean_names() %&amp;gt;% select(ano, codmun7, gini, idhm)dt &amp;lt;- brmap_municipio %&amp;gt;% inner_join(idh_gini, by = c(&amp;quot;municipio_cod&amp;quot; = &amp;quot;codmun7&amp;quot;))Theme maptheme_map_br &amp;lt;- theme(panel.background = element_rect(fill = &amp;quot;transparent&amp;quot;), panel.grid.major = element_line(color = &amp;quot;transparent&amp;quot;), axis.text.x = element_blank(), axis.text.y = element_blank(), axis.ticks = element_blank(),legend.position = &amp;quot;bottom&amp;quot;, #legend.justification = c(1, 1),legend.</description>
     </item>
     

@@ -37,6 +37,3 @@ text-align: justify}
 > COELHO, Rony. A participação institucional em São Paulo. Trajetória e a experiência recente no governo Haddad (PT, 2013-16).
 
 > COELHO, Rony. O processo de descentralização intramunicipal em São Paulo.
-
-
-## Working in progress

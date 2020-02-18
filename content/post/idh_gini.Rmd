@@ -1,5 +1,6 @@
 ---
-title: "HDI-M and GINI in Brazil \n (1991, 2000, 2010)"
+title: "HDI-M and GINI in Brazil (1991, 2000, 2010)"
+date: 02
 ---
 
 ```{r setup, include=FALSE}
@@ -58,7 +59,6 @@ ggplot(dt)+
 
 # Plot GINI (1991, 2000, 2010)
 ```{r fig.height=10, fig.width=10}
-X11()
 ggplot(dt)+
   geom_sf(aes(fill=gini), colour = alpha("white", .2), lty=3)+
   scale_fill_viridis_c("GINI", option = "inferno", direction = -1)+

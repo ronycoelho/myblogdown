@@ -1,0 +1,14 @@
+---
+title: "Scartterplot (with link to dinamic version)"
+date: 01
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Go to the [dinamic version](https://rpubs.com/r_rabbit/512787) of the plot on my Rpubs page
+
+![](/post/Scartterplot_files/scarterplot.png)
+
+*Confidential data
