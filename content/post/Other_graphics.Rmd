@@ -11,12 +11,12 @@ knitr::opts_chunk$set()
 ```
 
 #Scatterplot with notes 
-![](/post/Other_graphics_files/scartter_with_notes.png)
+![](/post/Other_graphics_files/scartter_with_notes.png){width=95% height=95% align="center"}
 
 * Designed to be plotted on my works. See the Publication Tab.
 
 #Wave graphic (density graphic)
-![](/post/Other_graphics_files/density.png)
+![](/post/Other_graphics_files/density.png){width=90% height=90% align="center"}
 
 * Designed to be plotted on my works. See the Publication Tab.
 
