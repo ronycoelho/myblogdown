@@ -47,7 +47,7 @@ theme_map_br <- theme(panel.background = element_rect(fill = "transparent"),
 ```
 
 # Plot HDI-M (1991, 2000, 2010)
-```{r fig.height=8, fig.width=8}
+```{r fig.height=4, fig.width=8}
 ggplot(dt)+
   geom_sf(aes(fill=idhm), colour = alpha("white", .2), lty=3)+
   scale_fill_viridis_c("HDI-M", option = "inferno")+
@@ -58,7 +58,7 @@ ggplot(dt)+
 ```
 
 # Plot GINI (1991, 2000, 2010)
-```{r fig.height=8, fig.width=8}
+```{r fig.height=4, fig.width=8}
 ggplot(dt)+
   geom_sf(aes(fill=gini), colour = alpha("white", .2), lty=3)+
   scale_fill_viridis_c("GINI", option = "inferno", direction = -1)+
@@ -67,7 +67,3 @@ ggplot(dt)+
   theme_map_br +
   facet_wrap(~ano)
 ```
-
-
-
-

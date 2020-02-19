@@ -9,7 +9,7 @@ text-align: justify}
 
 ## Articles and papers published
 
->   ALMEIDA, Carla C.; COELHO, Rony; MARTELLI, Carla G. G.;  LUCHMANN, Lígia H. H. A participação conselhista no Brasil. Uma proposta de análise por meio do Índice de Potencial Participativo dos Conselhos nos municípios (IPPC). [(Acess here)](https://pdpp2019.sinteseeventos.com.br/simposio/view?ID_SIMPOSIO=18)
+>   ALMEIDA, Carla C.; COELHO, Rony; MARTELLI, Carla G. G.;  LUCHMANN, Lígia H. H. A participação conselhista no Brasil. Uma proposta de análise por meio do Índice de Potencial Participativo dos Conselhos nos municípios (IPPC). Anais do IV Encontro Partição, Democracia e Políticas Públicas, Porto Alegre, 2019 [(Acess here)](https://pdpp2019.sinteseeventos.com.br/simposio/view?ID_SIMPOSIO=18)
 
 >   COELHO, RONY. Legislação Participativa: atores, iniciativas e processo legislativo. Interseções (UERJ), v. 17, p. 189-225, 2015. [(Acess here)](https://www.e-publicacoes.uerj.br/index.php/intersecoes/article/view/18053)
 
