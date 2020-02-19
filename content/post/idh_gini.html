@@ -43,7 +43,9 @@ dt &lt;- brmap_municipio %&gt;%
 </div>
 <div id="plot-hdi-m-1991-2000-2010" class="section level1">
 <h1>Plot HDI-M (1991, 2000, 2010)</h1>
-<pre class="r"><code>ggplot(dt)+
+<pre class="r"><code>par(mar=c(0,0,0,0))
+
+ggplot(dt)+
   geom_sf(aes(fill=idhm), colour = alpha(&quot;white&quot;, .2), lty=3)+
   scale_fill_viridis_c(&quot;HDI-M&quot;, option = &quot;inferno&quot;)+
   geom_sf(data=brmap::brmap_brasil, fill=NA, color = &quot;black&quot;)+
@@ -54,7 +56,9 @@ dt &lt;- brmap_municipio %&gt;%
 </div>
 <div id="plot-gini-1991-2000-2010" class="section level1">
 <h1>Plot GINI (1991, 2000, 2010)</h1>
-<pre class="r"><code>ggplot(dt)+
+<pre class="r"><code>par(mar=c(0,0,0,0))
+
+ggplot(dt)+
   geom_sf(aes(fill=gini), colour = alpha(&quot;white&quot;, .2), lty=3)+
   scale_fill_viridis_c(&quot;GINI&quot;, option = &quot;inferno&quot;, direction = -1)+
   geom_sf(data=brmap::brmap_brasil, fill=NA, color = &quot;black&quot;)+
