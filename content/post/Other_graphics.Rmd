@@ -1,9 +1,6 @@
 ---
 title: "Other Graphics on my works"
 date: 2019-01-08
-output:
-  html_document:
-    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
