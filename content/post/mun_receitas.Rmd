@@ -1,5 +1,5 @@
 ---
-title: "Working in progress..."
+title: "Working in progress"
 date: 2019-01-07
 ---
 

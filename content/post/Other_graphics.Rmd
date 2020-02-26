@@ -10,14 +10,14 @@ knitr::opts_chunk$set()
 #Scatterplot with notes 
 ![](/post/Other_graphics_files/scartter_with_notes.png)
 
-* Designed to be plotted on my works. See the Publication Tab.
+> *Designed to be plotted on my works. See the Research Tab.
 
 #Wave graphic (density graphic)
 ![](/post/Other_graphics_files/density.png)
 
-* Designed to be plotted on my works. See the Publication Tab.
+> *Designed to be plotted on my works. See the Research Tab.
 
 #Wordcloud
 ![](/post/Other_graphics_files/wordcloud.png)
 
-* Designed to be plotted on my works. See the Publication Tab.
+> *Designed to be plotted on my works. See the Research Tab.
