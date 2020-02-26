@@ -1,13 +1,13 @@
 ---
 title: "Working in progress..."
-data: 2019-01-07
+date: 2019-01-07
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
 ```
 
-## Municípios que podem ser extintos \nde acordo com a PEC do pacto federativo (PEC 188/2019)
+## Municípios que podem ser extintos \n de acordo com a PEC do pacto federativo (PEC 188/2019)
 
 ### Reprodução dos dados da Confederação Nacional dos Municípios -  [CNM](https://www.cnm.org.br/comunicacao/noticias/nota-sobre-a-proposta-do-governo-federal-de-extincao-de-municipios) 
 
