@@ -1,0 +1,124 @@
+---
+title: Number of deputies elected by party in Brazil (2018)
+date: '2020-02-29'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=F)
+```
+.
+
+![](/post/2020-02-29-number-of-deputies-elected-by-party-2018-in-brazil_files/image_1.png)
+.
+
+## Codes
+
+### load libraries
+```{r}
+library(tidyverse)
+library(electionsBR)
+library(ggparliament)
+library(paletteer)
+```
+
+### load data
+```{r}
+d <- vote_mun_zone_fed(2018, uf = "ALL")
+```
+
+### manipulating_1
+```{r}
+eleitos <- c("ELEITO POR MÉDIA", "ELEITO POR QP", "ELEITO")
+
+dep_ele <- d %>% 
+  select(NOME_CANDIDATO, DESCRICAO_CARGO, SIGLA_PARTIDO, DESC_SIT_CAND_TOT) %>% 
+  filter(DESC_SIT_CAND_TOT %in% eleitos, 
+         DESCRICAO_CARGO == "Deputado Federal") %>% 
+  distinct(NOME_CANDIDATO, .keep_all=T)
+
+part_ele <- dep_ele %>% 
+  group_by(SIGLA_PARTIDO) %>% 
+  count() %>% 
+  arrange(desc(n)) 
+
+part_ele$SIGLA_PARTIDO <- recode(part_ele$SIGLA_PARTIDO, SOLIDARIEDADE = "SDD")
+
+part_ele %>% 
+  knitr::kable()
+```
+
+### manipulating_2
+```{r}
+seats <- ggparliament::parliament_data(election_data= part_ele,
+                              type= "semicircle",
+                              parl_rows=10,
+                              party_seats=part_ele$n)
+
+seats <- seats %>% 
+  mutate(dest = 1, 
+         rank = dense_rank(n),
+         labels = paste(SIGLA_PARTIDO, paste0("(",n, ")")))
+```
+
+### creating legend and labels
+```{r} 
+#dput(paletteer_d("pals::polychrome"))
+#paletteer_d("pals::polychrome")
+#dput(unique(seats$SIGLA_PARTIDO))
+
+legend <- c("PT" = "#FF0000", 
+            "PSL" = "#0000FF", 
+            "PP" = "#87CEEB", 
+            "PSD" = "#800080", 
+            "MDB" = "#00FFFF", 
+            "PR" = "#00FF00", 
+            "PSB" = "#8B0000", 
+            "PRB" = "#FFDEAD",  
+            "DEM" = "#FF00FF",
+            "PSDB" = "#3283FEFF", 
+            "PDT" = "#FF6347", 
+            "SDD" = "#B10DA1FF",  
+            "PODE" = "#333300", 
+            "PSOL" = "#FFD700",  
+            "PTB" = "#B5EFB5FF", 
+            "PC do B" = "#DC143C",
+            "NOVO" = "#FF4500", 
+            "PPS" = "#822E1CFF", 
+            "PROS" = "#F8A19FFF", 
+            "PSC" = "#BDCDFFFF", 
+            "AVANTE" = "#325A9BFF", 
+            "PHS" = "#1CFFCEFF", 
+            "PATRI" = "#BC8F8F", 
+            "PRP" = "#800000",
+            "PV" = "#808000", 
+            "PMN" = "#5A5156FF", 
+            "PTC" = "hotpink", 
+            "DC" = "gainsboro", 
+            "PPL" = "#000000", 
+            "REDE" = "#006400") 
+
+labels <- unique(seats$labels)
+```
+
+### plot graphic
+```{r fig.width=10}
+ggplot(seats, aes(x,y, color=fct_reorder(SIGLA_PARTIDO, n, .desc=T)))+
+  geom_parliament_seats(size=seats$rank/4)+
+  scale_colour_manual("Parties (n. elected)", 
+                      values = legend, 
+                      labels = labels)+  
+  theme_ggparliament(border=T)+
+  theme(legend.position= "bottom",
+        legend.background = element_blank(),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size=16),
+        plot.title = element_text(hjust = 0.5, size = 20),
+        plot.subtitle=element_text(hjust = 0.5, size = 14))+
+  labs(title= "Chamber of Deputies in Brazil",
+       subtitle= "Number of deputies elected by party")+
+  guides(color = guide_legend(title.position="top", 
+                              title.hjust = 0.5),
+                              override.aes = list(size=8)) +
+  annotate("text", label = "Total = 513", x =-1.4, y=1.9, size = 6)+
+  annotate("text", label = "2018", x =0, y=0.3, size = 20)
+```

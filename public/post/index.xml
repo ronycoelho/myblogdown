@@ -6,10 +6,32 @@
     <description>Recent content in Posts on Rony Coelho</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 18 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 29 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Number of deputies elected by party in Brazil (2018)</title>
+      <link>/2020/02/29/number-of-deputies-elected-by-party-in-brazil-2018/</link>
+      <pubDate>Sat, 29 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/29/number-of-deputies-elected-by-party-in-brazil-2018/</guid>
+      <description>.
+.
+Codesload librarieslibrary(tidyverse)library(electionsBR)library(ggparliament)library(paletteer)load datad &amp;lt;- vote_mun_zone_fed(2018, uf = &amp;quot;ALL&amp;quot;)manipulating_1eleitos &amp;lt;- c(&amp;quot;ELEITO POR MÉDIA&amp;quot;, &amp;quot;ELEITO POR QP&amp;quot;, &amp;quot;ELEITO&amp;quot;)dep_ele &amp;lt;- d %&amp;gt;% select(NOME_CANDIDATO, DESCRICAO_CARGO, SIGLA_PARTIDO, DESC_SIT_CAND_TOT) %&amp;gt;% filter(DESC_SIT_CAND_TOT %in% eleitos, DESCRICAO_CARGO == &amp;quot;Deputado Federal&amp;quot;) %&amp;gt;% distinct(NOME_CANDIDATO, .keep_all=T)part_ele &amp;lt;- dep_ele %&amp;gt;% group_by(SIGLA_PARTIDO) %&amp;gt;% count() %&amp;gt;% arrange(desc(n)) part_ele$SIGLA_PARTIDO &amp;lt;- recode(part_ele$SIGLA_PARTIDO, SOLIDARIEDADE = &amp;quot;SDD&amp;quot;)part_ele %&amp;gt;% knitr::kable()manipulating_2seats &amp;lt;- ggparliament::parliament_data(election_data= part_ele,type= &amp;quot;semicircle&amp;quot;,parl_rows=10,party_seats=part_ele$n)seats &amp;lt;- seats %&amp;gt;% mutate(dest = 1, rank = dense_rank(n),labels = paste(SIGLA_PARTIDO, paste0(&amp;quot;(&amp;quot;,n, &amp;quot;)&amp;quot;)))creating legend and labels#dput(paletteer_d(&amp;quot;pals::polychrome&amp;quot;))#paletteer_d(&amp;quot;pals::polychrome&amp;quot;)#dput(unique(seats$SIGLA_PARTIDO))legend &amp;lt;- c(&amp;quot;PT&amp;quot; = &amp;quot;#FF0000&amp;quot;, &amp;quot;PSL&amp;quot; = &amp;quot;#0000FF&amp;quot;, &amp;quot;PP&amp;quot; = &amp;quot;#87CEEB&amp;quot;, &amp;quot;PSD&amp;quot; = &amp;quot;#800080&amp;quot;, &amp;quot;MDB&amp;quot; = &amp;quot;#00FFFF&amp;quot;, &amp;quot;PR&amp;quot; = &amp;quot;#00FF00&amp;quot;, &amp;quot;PSB&amp;quot; = &amp;quot;#8B0000&amp;quot;, &amp;quot;PRB&amp;quot; = &amp;quot;#FFDEAD&amp;quot;, &amp;quot;DEM&amp;quot; = &amp;quot;#FF00FF&amp;quot;,&amp;quot;PSDB&amp;quot; = &amp;quot;#3283FEFF&amp;quot;, &amp;quot;PDT&amp;quot; = &amp;quot;#FF6347&amp;quot;, &amp;quot;SDD&amp;quot; = &amp;quot;#B10DA1FF&amp;quot;, &amp;quot;PODE&amp;quot; = &amp;quot;#333300&amp;quot;, &amp;quot;PSOL&amp;quot; = &amp;quot;#FFD700&amp;quot;, &amp;quot;PTB&amp;quot; = &amp;quot;#B5EFB5FF&amp;quot;, &amp;quot;PC do B&amp;quot; = &amp;quot;#DC143C&amp;quot;,&amp;quot;NOVO&amp;quot; = &amp;quot;#FF4500&amp;quot;, &amp;quot;PPS&amp;quot; = &amp;quot;#822E1CFF&amp;quot;, &amp;quot;PROS&amp;quot; = &amp;quot;#F8A19FFF&amp;quot;, &amp;quot;PSC&amp;quot; = &amp;quot;#BDCDFFFF&amp;quot;, &amp;quot;AVANTE&amp;quot; = &amp;quot;#325A9BFF&amp;quot;, &amp;quot;PHS&amp;quot; = &amp;quot;#1CFFCEFF&amp;quot;, &amp;quot;PATRI&amp;quot; = &amp;quot;#BC8F8F&amp;quot;, &amp;quot;PRP&amp;quot; = &amp;quot;#800000&amp;quot;,&amp;quot;PV&amp;quot; = &amp;quot;#808000&amp;quot;, &amp;quot;PMN&amp;quot; = &amp;quot;#5A5156FF&amp;quot;, &amp;quot;PTC&amp;quot; = &amp;quot;hotpink&amp;quot;, &amp;quot;DC&amp;quot; = &amp;quot;gainsboro&amp;quot;, &amp;quot;PPL&amp;quot; = &amp;quot;#000000&amp;quot;, &amp;quot;REDE&amp;quot; = &amp;quot;#006400&amp;quot;) labels &amp;lt;- unique(seats$labels)plot graphicggplot(seats, aes(x,y, color=fct_reorder(SIGLA_PARTIDO, n, .</description>
+    </item>
+    
+    <item>
+      <title>State of São Paulo elections - 2º round (2018)</title>
+      <link>/2020/02/28/state-of-s%C3%A3o-paulo-elections-2%C2%BA-round-2018/</link>
+      <pubDate>Fri, 28 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/02/28/state-of-s%C3%A3o-paulo-elections-2%C2%BA-round-2018/</guid>
+      <description>img {display: block;margin-left: auto;margin-right: auto;}.
+.
+Codeslibrary(paletteer)library(tidyverse)library(geobr)d &amp;lt;- electionsBR::vote_mun_zone_fed(2018)dput(names(d_2018))unique(d_2018$SIGLA_UF)colums &amp;lt;- c(&amp;quot;NUM_TURNO&amp;quot;, &amp;quot;SIGLA_UF&amp;quot;, &amp;quot;CODIGO_MUNICIPIO&amp;quot;, &amp;quot;DESCRICAO_CARGO&amp;quot;, &amp;quot;NOME_URNA_CANDIDATO&amp;quot;, &amp;quot;SIGLA_PARTIDO&amp;quot;, &amp;quot;TOTAL_VOTOS&amp;quot;)d2_2018 &amp;lt;- d %&amp;gt;%select(colums) %&amp;gt;% filter(DESCRICAO_CARGO == &amp;quot;Governador&amp;quot;,NUM_TURNO == 2, SIGLA_UF == &amp;quot;SP&amp;quot;)d2_2018 %&amp;gt;% #select(NOME_URNA_CANDIDATO, TOTAL_VOTOS) %&amp;gt;% #NOME_MUNICIPIOgroup_by(NOME_URNA_CANDIDATO) %&amp;gt;% summarise(total = sum(TOTAL_VOTOS)) %&amp;gt;%mutate(perc = round(total/sum(total)*100, 2))d3_2018 &amp;lt;- d2_2018 %&amp;gt;% #select(CODIGO_MUNICIPIO, NOME_URNA_CANDIDATO, TOTAL_VOTOS) %&amp;gt;% #NOME_MUNICIPIOgroup_by(CODIGO_MUNICIPIO, NOME_URNA_CANDIDATO) %&amp;gt;% summarise(TOTAL_VOTOS = sum(TOTAL_VOTOS)) %&amp;gt;% ungroup() %&amp;gt;% group_by(CODIGO_MUNICIPIO) %&amp;gt;% mutate(perc = round(TOTAL_VOTOS/sum(TOTAL_VOTOS)*100, 2)) %&amp;gt;%ungroup() %&amp;gt;% mutate(nominal_perc = if_else(NOME_URNA_CANDIDATO == &amp;quot;MARCIO FRANÇA&amp;quot;, perc*-1, perc))d3_2018 &amp;lt;- d3_2018 %&amp;gt;% janitor::clean_names() %&amp;gt;% mutate(nome_urna_candidato = recode(nome_urna_candidato,&amp;quot;MARCIO FRANÇA&amp;quot; = &amp;quot;marcio&amp;quot;,&amp;quot;JOÃO Dória&amp;quot; = &amp;quot;joao&amp;quot;))d3_2018 &amp;lt;- d3_2018 %&amp;gt;% pivot_wider(id_cols=codigo_municipio,names_from = nome_urna_candidato, values_from = -c(codigo_municipio, nome_urna_candidato),values_fn = list(perc = list))%&amp;gt;% unnest(-codigo_municipio)d4_2018 &amp;lt;- d3_2018 %&amp;gt;% mutate(plot_perc = if_else(perc_joao &amp;gt;= 50, perc_joao, nominal_perc_marcio)) mun_sp &amp;lt;- read_municipality(&amp;quot;SP&amp;quot;, tp=&amp;quot;simplified&amp;quot;, year=2018)codes &amp;lt;- rio::import(&amp;quot;https://github.</description>
+    </item>
     
     <item>
       <title>Distribution of brazilian population (2019)</title>

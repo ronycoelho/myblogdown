@@ -1,0 +1,201 @@
+---
+title: State of São Paulo elections - 2º round (2018)
+author: ''
+date: '2020-02-28'
+---
+<style>
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=F)
+```
+.
+
+![](/post/2020-02-28-state-of-são-paulo-elections-2-round-2018_files/image_2.png)
+
+.
+
+
+# Codes
+```{r}
+library(paletteer)
+library(tidyverse)
+library(geobr)
+```
+
+
+```{r}
+d <- electionsBR::vote_mun_zone_fed(2018)
+```
+
+
+```{r}
+dput(names(d_2018))
+
+unique(d_2018$SIGLA_UF)
+```
+
+
+```{r}
+colums <- c("NUM_TURNO", "SIGLA_UF", "CODIGO_MUNICIPIO", "DESCRICAO_CARGO", 
+            "NOME_URNA_CANDIDATO", "SIGLA_PARTIDO", "TOTAL_VOTOS")
+
+d2_2018 <- d %>%
+  select(colums) %>% 
+  filter(DESCRICAO_CARGO == "Governador",
+         NUM_TURNO == 2, 
+         SIGLA_UF == "SP")
+```
+
+
+```{r}
+d2_2018 %>% 
+  #select(NOME_URNA_CANDIDATO, TOTAL_VOTOS) %>% #NOME_MUNICIPIO
+  group_by(NOME_URNA_CANDIDATO) %>% 
+  summarise(total = sum(TOTAL_VOTOS)) %>%
+  mutate(perc = round(total/sum(total)*100, 2))
+```
+
+
+```{r}
+d3_2018 <- d2_2018 %>% 
+    #select(CODIGO_MUNICIPIO, NOME_URNA_CANDIDATO, TOTAL_VOTOS) %>% #NOME_MUNICIPIO
+    group_by(CODIGO_MUNICIPIO, NOME_URNA_CANDIDATO) %>% 
+    summarise(TOTAL_VOTOS = sum(TOTAL_VOTOS)) %>% 
+    ungroup() %>% 
+    group_by(CODIGO_MUNICIPIO) %>% 
+    mutate(perc = round(TOTAL_VOTOS/sum(TOTAL_VOTOS)*100, 2)) %>%
+    ungroup() %>% 
+    mutate(nominal_perc = if_else(NOME_URNA_CANDIDATO == "MARCIO FRANÇA", perc*-1, perc))
+
+d3_2018 <- d3_2018 %>% 
+  janitor::clean_names() %>% 
+  mutate(nome_urna_candidato = recode(nome_urna_candidato,
+                                      "MARCIO FRANÇA" = "marcio",
+                                      "JOÃO Dória" = "joao"))
+
+d3_2018 <- d3_2018 %>% 
+    pivot_wider(
+    id_cols=codigo_municipio,
+    names_from = nome_urna_candidato, 
+    values_from = -c(codigo_municipio, nome_urna_candidato),
+    values_fn = list(perc = list))%>% 
+    unnest(-codigo_municipio)
+
+d4_2018 <- d3_2018 %>% 
+  mutate(plot_perc = if_else(perc_joao >= 50, perc_joao, nominal_perc_marcio)) 
+```
+
+```{r}
+mun_sp <- read_municipality("SP", tp="simplified", year=2018)
+
+codes <- rio::import("https://github.com/tbrugz/ribge/raw/master/doc/ibge-tse-map.csv")
+
+codes_sp <- codes %>% 
+              filter(uf == "SP")
+
+dt_plot_2018 <- mun_sp %>% 
+  inner_join(codes_sp, by = c("code_muni" = "cod_municipio_ibge")) %>% 
+  select(1:3,5:6,9) %>%
+  #mutate(cod_municipio_tse = paste0(0, cod_municipio_tse)) %>% 
+  mutate(cod_municipio_tse = as.character(cod_municipio_tse)) %>% 
+  inner_join(d4_2018, by = c("cod_municipio_tse" = "codigo_municipio"))
+
+
+```
+
+
+```{r}
+#library(paletteer)
+#X11(width=10)
+plot <- ggplot(dt_plot_2018)+
+  geom_sf(aes(fill= plot_perc)) + 
+  scale_fill_paletteer_c("pals::coolwarm",
+                         name= "",
+                         limits = c (-85,85),
+                         labels=c("<",
+                                  "50%",
+                                  ">"),
+                         breaks=c(85,0,-85),
+                         direction= -1) +
+  #scale_fill_gradientn()
+  coord_sf()+
+  theme_bw()+
+  theme(legend.position = "bottom", 
+        #legend.justification = c(1, 1),
+        legend.direction = "horizontal",
+        legend.key.width = unit (.5, "in"),
+        legend.background = element_blank(),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size=12))
+```
+
+
+```{r}
+dt_plot_2018_factor <-dt_plot_2018 %>% 
+  mutate(factor_perc =
+           case_when(plot_perc >= 50 & plot_perc < 59.99 ~ "Dória - 50 a 59%",
+                     plot_perc >= 60 & plot_perc <= 69.99 ~ "Dória - 60 a 69%",
+                     plot_perc >= 70 & plot_perc < 79.99 ~ "Dória - 70 a 79%",
+                     plot_perc >= 80 & plot_perc < 89.99 ~ "Dória - 80 a 89%",
+                     plot_perc >= 90 & plot_perc < 100 ~ "Dória - 90 a 100%",
+                     plot_perc <= -50 & plot_perc > -59.99 ~ "França - 50 a 59%",
+                     plot_perc <= -60 & plot_perc > -69.99 ~ "França - 60 a 69%",
+                     plot_perc <= -70 & plot_perc > -79.99 ~ "França - 70 a 79%",
+                     plot_perc <= -80 & plot_perc > -89.99 ~ "França - 80 a 89%",
+                     plot_perc <= -90 & plot_perc > -100 ~ "França - 90 a 100%"))
+
+levels <- c("Dória - 90 a 100%", "Dória - 80 a 89%", "Dória - 70 a 79%","Dória - 60 a 69%", "Dória - 50 a 59%", 
+            "França - 50 a 59%", "França - 60 a 69%","França - 70 a 79%", "França - 80 a 89%", "França - 90 a 100%")
+
+dt_plot_2018_factor$factor_perc <- ordered(dt_plot_2018_factor$factor_perc, levels = levels)
+```
+
+
+```{r}
+paletteer_d("RColorBrewer::RdYlBu", direction = -1)
+
+colors <- c("#313695FF", "#4575B4FF", "#74ADD1FF", "#ABD9E9FF", 
+"#E0F3F8FF", "#FEE090FF", "#FDAE61FF", "#F46D43FF", 
+"#D73027FF", "#A50026FF")
+
+legend <- dput(paste(shQuote(levels), shQuote(colors), sep = " = "))
+
+legend <- c("Dória - 90 a 100%" = "#313695FF", 
+            "Dória - 80 a 89%" = "#4575B4FF", 
+            "Dória - 70 a 79%" = "#74ADD1FF", 
+            "Dória - 60 a 69%" = "#ABD9E9FF",
+            "Dória - 50 a 59%" = "#E0F3F8FF", 
+            "França - 50 a 59%" = "#FEE090FF",
+            "França - 60 a 69%" = "#FDAE61FF", 
+            "França - 70 a 79%" = "#F46D43FF",
+            "França - 80 a 89%" = "#D73027FF", 
+            "França - 90 a 100%" = "#A50026FF")
+```
+
+
+```{r fig.width=12}
+par(mar=c(0,0,0,0))
+ggplot(dt_plot_2018_factor)+
+  geom_sf(aes(fill= factor_perc)) + 
+  scale_fill_manual(values = legend, 
+                    drop = F,
+                    name = "Win percentage") +
+  coord_sf()+
+  theme_minimal()+
+  labs(title= "State of São Paulo elections",
+       subtitle= "Second round, 2018")+
+  theme(
+  legend.key.height = unit (0.25, "in"),
+  legend.justification = c(0, .95),
+  legend.position = c(.75,1),
+        legend.background = element_blank(),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size=16),
+  title=element_text(size=18))
+```
+

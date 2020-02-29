@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.64.1" />
+
+
+<title>State of São Paulo elections - 2º round (2018) - Rony Coelho</title>
+<meta property="og:title" content="State of São Paulo elections - 2º round (2018) - Rony Coelho">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+<style>
+.header {
+  background: #5d8aa8;
+  font-weight: bold;
+}
+</style>
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/">Home</a></li>
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="/mypublications/">Research</a></li>
+    
+    <li><a href="https://github.com/ronycoelho">GitHub</a></li>
+    
+    <li><a href="http://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4454705J6">CV</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">3 min read</span>
+    
+
+    <h1 class="article-title">State of São Paulo elections - 2º round (2018)</h1>
+
+    
+    <span class="article-date"></span>
+    
+
+    <div class="article-content">
+      
+
+
+<style>
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+<p>.</p>
+<div class="figure">
+<img src="/post/2020-02-28-state-of-são-paulo-elections-2-round-2018_files/image_2.png" />
+
+</div>
+<p>.</p>
+<div id="codes" class="section level1">
+<h1>Codes</h1>
+<pre class="r"><code>library(paletteer)
+library(tidyverse)
+library(geobr)</code></pre>
+<pre class="r"><code>d &lt;- electionsBR::vote_mun_zone_fed(2018)</code></pre>
+<pre class="r"><code>dput(names(d_2018))
+
+unique(d_2018$SIGLA_UF)</code></pre>
+<pre class="r"><code>colums &lt;- c(&quot;NUM_TURNO&quot;, &quot;SIGLA_UF&quot;, &quot;CODIGO_MUNICIPIO&quot;, &quot;DESCRICAO_CARGO&quot;, 
+            &quot;NOME_URNA_CANDIDATO&quot;, &quot;SIGLA_PARTIDO&quot;, &quot;TOTAL_VOTOS&quot;)
+
+d2_2018 &lt;- d %&gt;%
+  select(colums) %&gt;% 
+  filter(DESCRICAO_CARGO == &quot;Governador&quot;,
+         NUM_TURNO == 2, 
+         SIGLA_UF == &quot;SP&quot;)</code></pre>
+<pre class="r"><code>d2_2018 %&gt;% 
+  #select(NOME_URNA_CANDIDATO, TOTAL_VOTOS) %&gt;% #NOME_MUNICIPIO
+  group_by(NOME_URNA_CANDIDATO) %&gt;% 
+  summarise(total = sum(TOTAL_VOTOS)) %&gt;%
+  mutate(perc = round(total/sum(total)*100, 2))</code></pre>
+<pre class="r"><code>d3_2018 &lt;- d2_2018 %&gt;% 
+    #select(CODIGO_MUNICIPIO, NOME_URNA_CANDIDATO, TOTAL_VOTOS) %&gt;% #NOME_MUNICIPIO
+    group_by(CODIGO_MUNICIPIO, NOME_URNA_CANDIDATO) %&gt;% 
+    summarise(TOTAL_VOTOS = sum(TOTAL_VOTOS)) %&gt;% 
+    ungroup() %&gt;% 
+    group_by(CODIGO_MUNICIPIO) %&gt;% 
+    mutate(perc = round(TOTAL_VOTOS/sum(TOTAL_VOTOS)*100, 2)) %&gt;%
+    ungroup() %&gt;% 
+    mutate(nominal_perc = if_else(NOME_URNA_CANDIDATO == &quot;MARCIO FRANÇA&quot;, perc*-1, perc))
+
+d3_2018 &lt;- d3_2018 %&gt;% 
+  janitor::clean_names() %&gt;% 
+  mutate(nome_urna_candidato = recode(nome_urna_candidato,
+                                      &quot;MARCIO FRANÇA&quot; = &quot;marcio&quot;,
+                                      &quot;JOÃO Dória&quot; = &quot;joao&quot;))
+
+d3_2018 &lt;- d3_2018 %&gt;% 
+    pivot_wider(
+    id_cols=codigo_municipio,
+    names_from = nome_urna_candidato, 
+    values_from = -c(codigo_municipio, nome_urna_candidato),
+    values_fn = list(perc = list))%&gt;% 
+    unnest(-codigo_municipio)
+
+d4_2018 &lt;- d3_2018 %&gt;% 
+  mutate(plot_perc = if_else(perc_joao &gt;= 50, perc_joao, nominal_perc_marcio)) </code></pre>
+<pre class="r"><code>mun_sp &lt;- read_municipality(&quot;SP&quot;, tp=&quot;simplified&quot;, year=2018)
+
+codes &lt;- rio::import(&quot;https://github.com/tbrugz/ribge/raw/master/doc/ibge-tse-map.csv&quot;)
+
+codes_sp &lt;- codes %&gt;% 
+              filter(uf == &quot;SP&quot;)
+
+dt_plot_2018 &lt;- mun_sp %&gt;% 
+  inner_join(codes_sp, by = c(&quot;code_muni&quot; = &quot;cod_municipio_ibge&quot;)) %&gt;% 
+  select(1:3,5:6,9) %&gt;%
+  #mutate(cod_municipio_tse = paste0(0, cod_municipio_tse)) %&gt;% 
+  mutate(cod_municipio_tse = as.character(cod_municipio_tse)) %&gt;% 
+  inner_join(d4_2018, by = c(&quot;cod_municipio_tse&quot; = &quot;codigo_municipio&quot;))</code></pre>
+<pre class="r"><code>#library(paletteer)
+#X11(width=10)
+plot &lt;- ggplot(dt_plot_2018)+
+  geom_sf(aes(fill= plot_perc)) + 
+  scale_fill_paletteer_c(&quot;pals::coolwarm&quot;,
+                         name= &quot;&quot;,
+                         limits = c (-85,85),
+                         labels=c(&quot;&lt;&quot;,
+                                  &quot;50%&quot;,
+                                  &quot;&gt;&quot;),
+                         breaks=c(85,0,-85),
+                         direction= -1) +
+  #scale_fill_gradientn()
+  coord_sf()+
+  theme_bw()+
+  theme(legend.position = &quot;bottom&quot;, 
+        #legend.justification = c(1, 1),
+        legend.direction = &quot;horizontal&quot;,
+        legend.key.width = unit (.5, &quot;in&quot;),
+        legend.background = element_blank(),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size=12))</code></pre>
+<pre class="r"><code>dt_plot_2018_factor &lt;-dt_plot_2018 %&gt;% 
+  mutate(factor_perc =
+           case_when(plot_perc &gt;= 50 &amp; plot_perc &lt; 59.99 ~ &quot;Dória - 50 a 59%&quot;,
+                     plot_perc &gt;= 60 &amp; plot_perc &lt;= 69.99 ~ &quot;Dória - 60 a 69%&quot;,
+                     plot_perc &gt;= 70 &amp; plot_perc &lt; 79.99 ~ &quot;Dória - 70 a 79%&quot;,
+                     plot_perc &gt;= 80 &amp; plot_perc &lt; 89.99 ~ &quot;Dória - 80 a 89%&quot;,
+                     plot_perc &gt;= 90 &amp; plot_perc &lt; 100 ~ &quot;Dória - 90 a 100%&quot;,
+                     plot_perc &lt;= -50 &amp; plot_perc &gt; -59.99 ~ &quot;França - 50 a 59%&quot;,
+                     plot_perc &lt;= -60 &amp; plot_perc &gt; -69.99 ~ &quot;França - 60 a 69%&quot;,
+                     plot_perc &lt;= -70 &amp; plot_perc &gt; -79.99 ~ &quot;França - 70 a 79%&quot;,
+                     plot_perc &lt;= -80 &amp; plot_perc &gt; -89.99 ~ &quot;França - 80 a 89%&quot;,
+                     plot_perc &lt;= -90 &amp; plot_perc &gt; -100 ~ &quot;França - 90 a 100%&quot;))
+
+levels &lt;- c(&quot;Dória - 90 a 100%&quot;, &quot;Dória - 80 a 89%&quot;, &quot;Dória - 70 a 79%&quot;,&quot;Dória - 60 a 69%&quot;, &quot;Dória - 50 a 59%&quot;, 
+            &quot;França - 50 a 59%&quot;, &quot;França - 60 a 69%&quot;,&quot;França - 70 a 79%&quot;, &quot;França - 80 a 89%&quot;, &quot;França - 90 a 100%&quot;)
+
+dt_plot_2018_factor$factor_perc &lt;- ordered(dt_plot_2018_factor$factor_perc, levels = levels)</code></pre>
+<pre class="r"><code>paletteer_d(&quot;RColorBrewer::RdYlBu&quot;, direction = -1)
+
+colors &lt;- c(&quot;#313695FF&quot;, &quot;#4575B4FF&quot;, &quot;#74ADD1FF&quot;, &quot;#ABD9E9FF&quot;, 
+&quot;#E0F3F8FF&quot;, &quot;#FEE090FF&quot;, &quot;#FDAE61FF&quot;, &quot;#F46D43FF&quot;, 
+&quot;#D73027FF&quot;, &quot;#A50026FF&quot;)
+
+legend &lt;- dput(paste(shQuote(levels), shQuote(colors), sep = &quot; = &quot;))
+
+legend &lt;- c(&quot;Dória - 90 a 100%&quot; = &quot;#313695FF&quot;, 
+            &quot;Dória - 80 a 89%&quot; = &quot;#4575B4FF&quot;, 
+            &quot;Dória - 70 a 79%&quot; = &quot;#74ADD1FF&quot;, 
+            &quot;Dória - 60 a 69%&quot; = &quot;#ABD9E9FF&quot;,
+            &quot;Dória - 50 a 59%&quot; = &quot;#E0F3F8FF&quot;, 
+            &quot;França - 50 a 59%&quot; = &quot;#FEE090FF&quot;,
+            &quot;França - 60 a 69%&quot; = &quot;#FDAE61FF&quot;, 
+            &quot;França - 70 a 79%&quot; = &quot;#F46D43FF&quot;,
+            &quot;França - 80 a 89%&quot; = &quot;#D73027FF&quot;, 
+            &quot;França - 90 a 100%&quot; = &quot;#A50026FF&quot;)</code></pre>
+<pre class="r"><code>par(mar=c(0,0,0,0))
+ggplot(dt_plot_2018_factor)+
+  geom_sf(aes(fill= factor_perc)) + 
+  scale_fill_manual(values = legend, 
+                    drop = F,
+                    name = &quot;Win percentage&quot;) +
+  coord_sf()+
+  theme_minimal()+
+  labs(title= &quot;State of São Paulo elections&quot;,
+       subtitle= &quot;Second round, 2018&quot;)+
+  theme(
+  legend.key.height = unit (0.25, &quot;in&quot;),
+  legend.justification = c(0, .95),
+  legend.position = c(.75,1),
+        legend.background = element_blank(),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size=16),
+  title=element_text(size=18))</code></pre>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
