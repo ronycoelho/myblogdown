@@ -13,7 +13,8 @@ knitr::opts_chunk$set(echo = TRUE, eval=F)
 
 <hr style="height:500pt; visibility:hidden;" />
 
-## Codes
+# Codes
+
 ```{r}
 library(paletteer)
 library(tidyverse)

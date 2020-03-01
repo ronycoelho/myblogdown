@@ -91,7 +91,7 @@ code {
 }
 
 .content {
-  max-width: 750px;
+  max-width: 800px;
   margin: 40px auto 10px;
   padding: 0 15px;
   font-size: 16px;
@@ -122,13 +122,15 @@ code {
 }
 
 .figure {
-  display: block;  
+  display: block;
     height: inherit;
     padding: 1px 5px;
     margin: auto;
     max-width: none;
     position: absolute;
     left: 50%;
+    position: relative;
+    left: calc(50% - 200px);
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
 }
