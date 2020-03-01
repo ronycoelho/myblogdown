@@ -19,6 +19,7 @@ Seleções:
 * Escopo: municipío
 
 * Tabela: Receitas Orçamentárias (Anexo I-C)
+
 #### Inicializar
 ```{r}
 #options(scipen=999)
