@@ -3,13 +3,7 @@ title: State of São Paulo elections - 2º round (2018)
 author: ''
 date: '2020-02-28'
 ---
-<style>
-img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-</style>
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval=F)
 ```
@@ -18,7 +12,6 @@ knitr::opts_chunk$set(echo = TRUE, eval=F)
 ![](/post/2020-02-28-state-of-são-paulo-elections-2-round-2018_files/image_2.png)
 
 .
-
 
 # Codes
 ```{r}
