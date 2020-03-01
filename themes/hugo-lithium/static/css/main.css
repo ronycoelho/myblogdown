@@ -91,7 +91,7 @@ code {
 }
 
 .content {
-  max-width: 800px;
+  max-width: 750px;
   margin: 40px auto 10px;
   padding: 0 15px;
   font-size: 16px;
@@ -129,8 +129,6 @@ code {
     max-width: none;
     position: absolute;
     left: 50%;
-    position: relative;
-    left: calc(50% - 200px);
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
 }
@@ -140,7 +138,6 @@ code {
 }
 
 .article-content a {
-  text-align: center;
   text-decoration: none;
   color: inherit;
   border-bottom: 3px solid #CBF8DF;
@@ -155,7 +152,6 @@ code {
 }
 
 .article-content hr {
-  text-align: center;
   width: 150px;
   margin: 50px auto;
   height: 1px;
