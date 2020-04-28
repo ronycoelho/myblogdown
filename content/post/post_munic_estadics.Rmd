@@ -1,8 +1,6 @@
 ---
 title: "Databases Munics-IPs and Estadics-IPs"
-output: html_document
-editor_options: 
-  chunk_output_type: inline
+date: 2020-04-28
 ---
 
 ```{r setup, include=FALSE}
