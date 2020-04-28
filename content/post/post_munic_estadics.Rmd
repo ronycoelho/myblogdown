@@ -1,0 +1,71 @@
+---
+title: "Databases Munics-IPs and Estadics-IPs"
+output: html_document
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = F, warning = F)
+```
+
+In this post I will show the databases built within the scope of the ["Procad-Political Participation"](https://participacaopolitica.cfh.ufsc.br/) project that gather information about participatory institutions in Brazil.
+
+
+First of all, let's load the required libraries
+```{r}
+library(tidyverse)
+library(kableExtra)
+```
+
+
+Then, let's load the databes that are hosted on my [github](https://github.com/ronycoelho/Bases-Munics-IPs-e-Estadics-IPs)
+```{r}
+munic <- "https://github.com/ronycoelho/Bases-Munics-IPs-e-Estadics-IPs/raw/master/munics_ips/Munics_IPs.xlsx"
+
+estadic <- "https://github.com/ronycoelho/Bases-Munics-IPs-e-Estadics-IPs/raw/master/estadics_ips/Estadic_IPs.xlsx"
+
+base_munic <- rio::import(munic, sheet = 2)
+
+base_estadic <- rio::import(estadic, sheet = 2)
+```
+  
+Now, I will show you an imgage of the dictionary of Munics-IPs presenting its first lines
+
+![Sample: dictionary - Munic-IPs](C:/myblogdown/static/dic_munic_.png)
+
+You can find the complete version of the dicitonary in the of my github above
+
+#
+
+Now it's time to view the database itself. I will show only the first 100 variables and the first 300 observations. The full version has 5,570 rows (number of municipalities) and more than 1,000 columns.
+
+```{r}
+base_munic %>% 
+  select(1:107) %>% 
+  head(300) %>% 
+  knitr::kable(table.attr='class="table-fixed-header"') %>% 
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "center")%>% 
+  scroll_box(width = "100%", height = "400px")
+```
+
+#
+
+The Estadics-IPs databases have a similar pattern to Munics-IPs. Here is a sample of its dictionary
+
+![Sample: dictionary - Estadics-IPs](C:/myblogdown/static/dic_est_.png)
+
+#
+
+And an example of your database
+```{r}
+base_estadic %>% 
+  select(1:104) %>% 
+  knitr::kable(table.attr='class="table-fixed-header"') %>% 
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "center")%>% 
+  scroll_box(width = "100%", height = "400px")
+```
+
+#
+
+To learn more, you can visit the Procad project website. Soon, I will publish a book chapter explaining details of these bases and their construction process.
