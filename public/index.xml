@@ -6,10 +6,22 @@
     <description>Recent content on Rony Coelho</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 29 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 04 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Databases Munics-IPs and Estadics-IPs</title>
+      <link>/2020/04/04/databases-munics-ips-and-estadics-ips/</link>
+      <pubDate>Sat, 04 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/04/databases-munics-ips-and-estadics-ips/</guid>
+      <description>In this post I will show the databases built within the scope of the “Procad-Political Participation” project that gather information about participatory institutions in Brazil.
+First of all, let’s load the required libraries
+library(tidyverse)library(DT)Then, let’s load the databes that are hosted on my github
+munic &amp;lt;- &amp;quot;https://github.com/ronycoelho/Bases-Munics-IPs-e-Estadics-IPs/raw/master/munics_ips/Munics_IPs.xlsx&amp;quot;estadic &amp;lt;- &amp;quot;https://github.com/ronycoelho/Bases-Munics-IPs-e-Estadics-IPs/raw/master/estadics_ips/Estadic_IPs.xlsx&amp;quot;base_munic &amp;lt;- rio::import(munic, sheet = 2)base_estadic &amp;lt;- rio::import(estadic, sheet = 2)Now, I will show you an image of the dictionary of Munics-IPs, presenting its first lines</description>
+    </item>
     
     <item>
       <title>Number of deputies elected by party in Brazil (2018)</title>
