@@ -3,8 +3,6 @@ title: "Party affiliation (in portuguese)"
 date: 2020-08-15
 ---
 
-```{r setup, include=T}
-knitr::opts_chunk$set(echo = TRUE, warning=F,  message=FALSE)
-```
+#[Please, see the post by clicking here](https://ronycoelho.github.io/ippc/filiacao_explorer.html)
 
-#[See the post here](https://ronycoelho.github.io/ippc/filiacao_explorer.html)
+I am trying other formats! Sorry about that!
