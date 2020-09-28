@@ -3,6 +3,8 @@ title: "Party affiliation (in portuguese)"
 date: 2020-08-15
 ---
 
-#[Please, see the post by clicking here](https://ronycoelho.github.io/ippc/filiacao_explorer.html)
 
-I am trying other formats! Sorry about that!
+#Originally posted on my [github account](https://ronycoelho.github.io/ippc/filiacao_explorer.html)
+
+
+<iframe src="https://ronycoelho.github.io/ippc/filiacao_explorer.html" width="900" height="780" style="border: none;"></iframe>
